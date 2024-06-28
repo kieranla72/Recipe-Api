@@ -13,7 +13,10 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<ISportsService, SportsService>();
 builder.Services.AddTransient<ISportsDao, SportsDao>();
 
-builder.Services.AddDbContext<SportsDbContext>();
+// builder.Services.AddDbContext<SportsDbContext>();
+var connectionString = builder.Configuration.GetConnectionString("SportsDbContextConnection");
+builder.Services.AddDbContext<SportsDbContext>(options => 
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21))));
 
 var app = builder.Build();
 

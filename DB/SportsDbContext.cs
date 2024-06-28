@@ -11,6 +11,7 @@ public class SportsDbContext: DbContext
     // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseMySQL("Server=127.0.0.1;Database=Sports;User=root;Password=example");
+        optionsBuilder.UseMySql("Server=127.0.0.1;Database=Sports;User=root;Password=example",
+            new MySqlServerVersion(new Version(8, 0, 21)));
     }
 }

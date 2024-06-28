@@ -14,7 +14,7 @@ public class SportsService : ISportsService
 
     public async Task<string> SaveSports(List<SportsData> sports)
     {
-        await _sportsDao.SaveSports();
+        await _sportsDao.SaveSports(sports);
         return "hello there mate";
     }
 

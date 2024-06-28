@@ -1,4 +1,6 @@
 
+using System.ComponentModel.DataAnnotations;
+
 namespace DB.Models;
 
 public class SportsData
@@ -10,7 +12,22 @@ public class SportsData
     }
     
     public int Id { get; set; }
-    public DateTime GameTime { get; set; }
+    [Required]
+    public DateTime? GameTime { get; set; }
+    [Required]
     public string HomeTeam { get; set; }
+    [Required]
     public string AwayTeam { get; set; }
+}
+
+internal class ValidDate : ValidationAttribute
+{
+    public override bool IsValid(object value)
+    {
+        if (value is DateTime dateTime)
+        {
+            return dateTime != default;
+        }
+        return false;
+    }
 }

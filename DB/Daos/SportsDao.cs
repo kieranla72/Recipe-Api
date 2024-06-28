@@ -12,14 +12,15 @@ public class SportsDao : ISportsDao
         _sportsDbContext = sportsDbContext;
     }
 
-    public async Task SaveSports()
+    public async Task SaveSports(List<SportsData> sportsData)
     {
-        await _sportsDbContext.SportsData.AddAsync(new SportsData{HomeTeam = "homeTeam", AwayTeam = "awayTeam", GameTime = new DateTime()});
+        await _sportsDbContext.SportsData.AddRangeAsync(sportsData);
         await _sportsDbContext.SaveChangesAsync();
     }
     
     public async Task<List<SportsData>> GetSports()
     {
+        // return new();
         var sportsData = await _sportsDbContext.SportsData.ToListAsync();
         return sportsData;
     }

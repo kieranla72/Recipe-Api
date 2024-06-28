@@ -34,7 +34,8 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("GameTime")
+                    b.Property<DateTime?>("GameTime")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("HomeTeam")

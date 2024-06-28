@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DB.Migrations
 {
     [DbContext(typeof(SportsDbContext))]
-    [Migration("20240627184820_InitialiseDatabase")]
-    partial class InitialiseDatabase
+    [Migration("20240628070202_NewMigration")]
+    partial class NewMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,8 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("GameTime")
+                    b.Property<DateTime?>("GameTime")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("HomeTeam")

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
+[Route("Games")]
 public class GamesController : Controller
 {
     private readonly IGamesService _gamesService;
@@ -29,7 +30,7 @@ public class GamesController : Controller
         var ans = await _gamesService.GetSports();
         return Ok(ans);
     }    
-    [Route("/{id}")]
+    [Route("{id}")]
     [HttpGet]
     public async Task<IActionResult> Get(int id)
     {

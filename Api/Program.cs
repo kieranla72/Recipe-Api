@@ -10,8 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddTransient<IGamesService, GamesService>();
 builder.Services.AddTransient<IGamesDao, GamesDao>();
+builder.Services.AddTransient<IGamesService, GamesService>();
+builder.Services.AddTransient<IFootballTeamsDao, FootballTeamsDao>();
+builder.Services.AddTransient<IFootballTeamsService, FootballTeamsService>();
 
 var connectionString = builder.Configuration.GetConnectionString("SportsDbContextConnection");
 builder.Services.AddDbContext<FootballDbContext>(options => 

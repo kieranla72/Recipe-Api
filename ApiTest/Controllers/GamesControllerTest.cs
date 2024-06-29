@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using ApiTest.Comparers;
 using DB;
 using DB.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,11 @@ namespace ApiTest.Controllers;
 
 public class GamesControllerTest : TestsBase
 {
+    private GamesComparer _gamesComparer;
 
     public GamesControllerTest(CustomWebApplicationFactory<Program> factory) : base(factory)
     {
+        _gamesComparer = new GamesComparer();
     }
 
     [Fact]
@@ -27,13 +30,12 @@ public class GamesControllerTest : TestsBase
         newGames[1].Id = gamesSortedByDate[1].Id;
 
         var insertedGames = await _dbContext.Games.ToListAsync();
-        var sortedInsertedGames = insertedGames.OrderByDescending(g => g.GameTime);
         
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(2, games.Count);
-        Assert.Equal(JsonSerializer.Serialize(newGames), JsonSerializer.Serialize(gamesSortedByDate));
-        Assert.Equal(JsonSerializer.Serialize(newGames), JsonSerializer.Serialize(sortedInsertedGames));
+        Assert.True(_gamesComparer.Equals(newGames, gamesSortedByDate));
+        Assert.True(_gamesComparer.Equals(newGames, insertedGames));
     }
     
     [Fact]
@@ -49,7 +51,7 @@ public class GamesControllerTest : TestsBase
         // Assert
         response.EnsureSuccessStatusCode();
         var games = await response.Content.ReadFromJsonAsync<List<Game>>();
-        Assert.Equal(JsonSerializer.Serialize(gamesToAdd), JsonSerializer.Serialize(games));
+        Assert.True(_gamesComparer.Equals(gamesToAdd, games));
     }    
     
     [Fact]
@@ -65,7 +67,7 @@ public class GamesControllerTest : TestsBase
         // Assert
         response.EnsureSuccessStatusCode();
         var game = await response.Content.ReadFromJsonAsync<Game>();
-        Assert.Equal(JsonSerializer.Serialize(gamesToAdd[0]), JsonSerializer.Serialize(game));
+        Assert.True(_gamesComparer.Equals(gamesToAdd[0], game));
     }    
     [Fact]
     public async Task GetGameById_NotFound()
@@ -96,17 +98,17 @@ public class GamesControllerTest : TestsBase
             new()
             {
                 GameTime = new DateTime(2024, 1, 14),
-                HomeTeam = "Arsenal",
+                HomeTeamId = footballTeams[0].Id,
                 HomeTeamScore = 0,
-                AwayTeam = "Manchester United",
+                AwayTeamId = footballTeams[1].Id,
                 AwayTeamScore = 0
             },
             new()
             {
                 GameTime = new DateTime(2024, 1, 12),
-                HomeTeam = "string",
+                HomeTeamId = footballTeams[1].Id,
                 HomeTeamScore = 0,
-                AwayTeam = "string",
+                AwayTeamId = footballTeams[2].Id,
                 AwayTeamScore = 0
             },
         };

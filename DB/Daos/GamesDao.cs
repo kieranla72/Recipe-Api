@@ -1,5 +1,6 @@
 using DB.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace DB.Daos;
 
@@ -20,9 +21,19 @@ public class GamesDao : IGamesDao
         await _footballDbContext.SaveChangesAsync();
     }
     
+    // public async Task<List<Game>> GetGames()
+    // {
+    //     var sportsData = await
+    //         _gameTable.FromSql(
+    //             $"SELECT Id, HomeTeamId, AwayTeamId, HomeTeamScore, AwayTeamScore, GameTime FROM Games ORDER BY GameTime Desc")
+    //             .ToListAsync();
+    //     return sportsData;
+    // }   
+    
     public async Task<List<Game>> GetGames()
     {
-        var sportsData = await _gameTable.ToListAsync();
+        var sportsData = await
+            _gameTable.ToListAsync();
         return sportsData;
     }    
     public async Task<Game?> GetGameById(int id)

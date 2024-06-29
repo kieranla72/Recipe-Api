@@ -1,4 +1,5 @@
 using DB;
+using DB.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,13 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
     protected readonly CustomWebApplicationFactory<Program> _factory;
     protected FootballDbContext _dbContext;
 
+    protected List<FootballTeam> footballTeams = new()
+    {
+        new() { Name = "Manchester United", CoefficientRanking = 0 },
+        new() { Name = "Arsenal", CoefficientRanking = 0 },
+        new() { Name = "Chelsea", CoefficientRanking = 0 },
+    };
+
     public TestsBase(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
@@ -19,6 +27,8 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
             .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             .Options;
         _dbContext = new FootballDbContext(options);
+        _dbContext.FootballTeams.AddRange(footballTeams);
+        _dbContext.SaveChanges();
     }
 
     public async void Dispose()

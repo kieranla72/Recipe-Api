@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 namespace DB.Models;
 
@@ -8,12 +9,15 @@ public class Game
     public int Id { get; set; }
     [Required]
     public DateTime? GameTime { get; set; }
-    [Required]
-    public string HomeTeam { get; set; }
+
+    [Required] 
+    public int HomeTeamId { get; set; }
+    public FootballTeam? HomeTeam { get; set; } = null!;
     [Required]
     public int HomeTeamScore { get; set; }
+    public FootballTeam? AwayTeam { get; set; } = null!;
     [Required]
-    public string AwayTeam { get; set; }
+    public int AwayTeamId { get; set; }
     [Required]
     public int AwayTeamScore { get; set; }
 }

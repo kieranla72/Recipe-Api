@@ -19,6 +19,9 @@
     <ItemGroup>
       <ProjectReference Include="..\DB\DB.csproj" />
       <ProjectReference Include="..\Lib\Lib.csproj" />
+    </ItemGroup>    
+    <ItemGroup>
+        <InternalsVisibleTo Include="..\ApiTest" />
     </ItemGroup>
 
 </Project>

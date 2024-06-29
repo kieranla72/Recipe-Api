@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DB.Migrations
 {
-    [DbContext(typeof(SportsDbContext))]
-    [Migration("20240628070202_NewMigration")]
+    [DbContext(typeof(FootballDbContext))]
+    [Migration("20240629091432_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -25,7 +25,27 @@ namespace DB.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("DB.Models.SportsData", b =>
+            modelBuilder.Entity("DB.Models.FootballTeam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<float>("CoefficientRanking")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FootballTeams");
+                });
+
+            modelBuilder.Entity("DB.Models.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,6 +57,9 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("AwayTeamScore")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("GameTime")
                         .IsRequired()
                         .HasColumnType("datetime(6)");
@@ -45,9 +68,12 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("HomeTeamScore")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("SportsData");
+                    b.ToTable("Games");
                 });
 #pragma warning restore 612, 618
         }

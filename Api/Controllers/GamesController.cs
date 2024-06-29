@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using DB.Models;
 using Lib.Exceptions;
 using Lib.Services;
@@ -7,27 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-public class GameAnalysisController : Controller
+public class GamesController : Controller
 {
-    private readonly ISportsService _sportsService;
-    public GameAnalysisController(ISportsService sportsService)
+    private readonly IGamesService _gamesService;
+    public GamesController(IGamesService gamesService)
     {
-        _sportsService = sportsService;
+        _gamesService = gamesService;
     }
     
     [Route("")]
     [HttpPost]
-    public async Task<IActionResult> ProcessData([FromBody]List<SportsData> sportsData)
+    public async Task<IActionResult> Create([FromBody]List<Game> sportsData)
     {
-        await _sportsService.SaveSports(sportsData);
-        return Created();
+        await _gamesService.SaveSports(sportsData);
+        return Created("Created new games", sportsData);
     }       
     
     [Route("")]
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var ans = await _sportsService.GetSports();
+        var ans = await _gamesService.GetSports();
         return Ok(ans);
     }    
     [Route("/{id}")]
@@ -36,7 +35,7 @@ public class GameAnalysisController : Controller
     {
         try
         {
-            var ans = await _sportsService.GetSportsById(id);
+            var ans = await _gamesService.GetSportsById(id);
             return Ok(ans);
         }
         catch (NotFoundException)

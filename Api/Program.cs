@@ -10,13 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddTransient<ISportsService, SportsService>();
-builder.Services.AddTransient<ISportsDao, SportsDao>();
+builder.Services.AddTransient<IGamesService, GamesService>();
+builder.Services.AddTransient<IGamesDao, GamesDao>();
 
-// builder.Services.AddDbContext<SportsDbContext>();
 var connectionString = builder.Configuration.GetConnectionString("SportsDbContextConnection");
-builder.Services.AddDbContext<SportsDbContext>(options => 
+builder.Services.AddDbContext<FootballDbContext>(options => 
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21))));
+
 
 var app = builder.Build();
 
@@ -27,7 +27,27 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Ensure migrations are applied during startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var dbContext = services.GetRequiredService<FootballDbContext>();
+        dbContext.Database.Migrate();
+        // Optionally, you can seed initial data here if needed
+        // EnsureSeedData(dbContext);
+    }
+    catch (Exception ex)
+    {
+        // Log the exception or handle it accordingly
+        Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+        throw;
+    }
+}
+
 app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+public partial class Program { }

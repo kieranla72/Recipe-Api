@@ -15,7 +15,6 @@ public class GamesController : Controller
         _gamesService = gamesService;
     }
     
-    [Route("")]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody]List<Game> sportsData)
     {
@@ -23,7 +22,6 @@ public class GamesController : Controller
         return Created("Created new games", sportsData);
     }       
     
-    [Route("")]
     [HttpGet]
     public async Task<IActionResult> Get()
     {

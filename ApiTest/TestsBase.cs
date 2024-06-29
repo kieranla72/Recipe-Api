@@ -11,12 +11,12 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
     protected readonly CustomWebApplicationFactory<Program> _factory;
     protected FootballDbContext _dbContext;
 
-    protected List<FootballTeam> footballTeams = new()
-    {
+    protected readonly List<FootballTeam> BaseFootballTeams =
+    [
         new() { Name = "Manchester United", CoefficientRanking = 0 },
         new() { Name = "Arsenal", CoefficientRanking = 0 },
         new() { Name = "Chelsea", CoefficientRanking = 0 },
-    };
+    ];
 
     public TestsBase(CustomWebApplicationFactory<Program> factory)
     {
@@ -27,7 +27,7 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
             .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             .Options;
         _dbContext = new FootballDbContext(options);
-        _dbContext.FootballTeams.AddRange(footballTeams);
+        _dbContext.FootballTeams.AddRange(BaseFootballTeams);
         _dbContext.SaveChanges();
     }
 

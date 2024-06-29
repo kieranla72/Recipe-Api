@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiTest.Controllers;
 
+[Collection("Sequential")]
 public class GamesControllerTest : TestsBase
 {
     private GamesComparer _gamesComparer;
@@ -20,10 +21,10 @@ public class GamesControllerTest : TestsBase
     [Fact]
     public async Task CreateGames()
     {
-        var newGames = GetNewGamesList();
         var client = _factory.CreateClient();
+        var newGames = GetNewGamesList();
         
-        var response = await client.PostAsJsonAsync("/", newGames);
+        var response = await client.PostAsJsonAsync("/Games", newGames);
         var games = await response.Content.ReadFromJsonAsync<List<Game>>();
         var gamesSortedByDate = games.OrderByDescending(g => g.GameTime).ToList();
         newGames[0].Id = gamesSortedByDate[0].Id;
@@ -46,7 +47,7 @@ public class GamesControllerTest : TestsBase
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.GetAsync("/");
+        var response = await client.GetAsync("/Games");
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -62,7 +63,7 @@ public class GamesControllerTest : TestsBase
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.GetAsync($"/{gamesToAdd[0].Id}");
+        var response = await client.GetAsync($"/Games/{gamesToAdd[0].Id}");
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -77,7 +78,7 @@ public class GamesControllerTest : TestsBase
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.GetAsync("/123123");
+        var response = await client.GetAsync("/Games/123123");
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -98,17 +99,17 @@ public class GamesControllerTest : TestsBase
             new()
             {
                 GameTime = new DateTime(2024, 1, 14),
-                HomeTeamId = footballTeams[0].Id,
+                HomeTeamId = BaseFootballTeams[0].Id,
                 HomeTeamScore = 0,
-                AwayTeamId = footballTeams[1].Id,
+                AwayTeamId = BaseFootballTeams[1].Id,
                 AwayTeamScore = 0
             },
             new()
             {
                 GameTime = new DateTime(2024, 1, 12),
-                HomeTeamId = footballTeams[1].Id,
+                HomeTeamId = BaseFootballTeams[1].Id,
                 HomeTeamScore = 0,
-                AwayTeamId = footballTeams[2].Id,
+                AwayTeamId = BaseFootballTeams[2].Id,
                 AwayTeamScore = 0
             },
         };

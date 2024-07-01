@@ -2,6 +2,7 @@ using DB.Models;
 using Lib.Exceptions;
 using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Api.Controllers;
 
@@ -10,9 +11,12 @@ namespace Api.Controllers;
 public class GamesController : Controller
 {
     private readonly IGamesService _gamesService;
-    public GamesController(IGamesService gamesService)
+    private readonly ICacheManagerService _cacheManagerService;
+    
+    public GamesController(IGamesService gamesService, ICacheManagerService cacheManagerService)
     {
         _gamesService = gamesService;
+        _cacheManagerService = cacheManagerService;
     }
     
     [HttpPost]
@@ -25,8 +29,10 @@ public class GamesController : Controller
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var ans = await _gamesService.GetSports();
-        return Ok(ans);
+        var retrievalFunction = async () => await _gamesService.GetSports();
+        var games = await _cacheManagerService.TryGetCache(CacheKeys.GamesData, 20, retrievalFunction);
+
+        return Ok(games);
     }    
     [Route("{id}")]
     [HttpGet]

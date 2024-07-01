@@ -2,6 +2,7 @@ using DB;
 using DB.Daos;
 using Lib.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddTransient<IGamesDao, GamesDao>();
 builder.Services.AddTransient<IGamesService, GamesService>();
 builder.Services.AddTransient<IFootballTeamsDao, FootballTeamsDao>();
 builder.Services.AddTransient<IFootballTeamsService, FootballTeamsService>();
+builder.Services.AddSingleton<ICacheManagerService, CacheManagerService>();
+
+builder.Services.AddMemoryCache();
 
 var connectionString = builder.Configuration.GetConnectionString("SportsDbContextConnection");
 builder.Services.AddDbContext<FootballDbContext>(options => 
@@ -21,6 +25,7 @@ builder.Services.AddDbContext<FootballDbContext>(options =>
 
 
 var app = builder.Build();
+var cache = app.Services.GetRequiredService<IMemoryCache>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

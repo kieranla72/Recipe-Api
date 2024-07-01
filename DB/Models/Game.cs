@@ -20,4 +20,7 @@ public class Game
     public int AwayTeamId { get; set; }
     [Required]
     public int AwayTeamScore { get; set; }
+
+    public bool IsProcessed { get; set; }
+    public bool? ProcessedDate { get; set; }
 }

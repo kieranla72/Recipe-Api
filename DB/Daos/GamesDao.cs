@@ -14,10 +14,10 @@ public class GamesDao : IGamesDao
         _gameTable = footballDbContext.Games;
     }
 
-    public async Task SaveGames(List<Game> sportsData)
+    public async Task<int> SaveGames(List<Game> sportsData)
     {
         await _gameTable.AddRangeAsync(sportsData);
-        await _footballDbContext.SaveChangesAsync();
+        return await _footballDbContext.SaveChangesAsync();
     }
     
     public async Task<List<Game>> GetGames()

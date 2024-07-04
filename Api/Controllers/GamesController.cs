@@ -20,7 +20,7 @@ public class GamesController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody]List<Game> sportsData)
+    public async Task<IActionResult> Create([FromBody]List<GameCreateDto> sportsData)
     {
         await _gamesService.SaveSports(sportsData);
         return Created("Created new games", sportsData);

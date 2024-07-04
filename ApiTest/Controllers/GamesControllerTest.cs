@@ -92,17 +92,26 @@ public class GamesControllerTest : TestsBase
         return gamesToAdd;
     }
 
-    private List<Game> GetNewGamesList()
+    private List<GameCreateDto> GetGameCreateDtos()
     {
         return new ()
         {
-            new()
+            new  ()
             {
                 GameTime = new DateTime(2024, 1, 14),
                 HomeTeamId = BaseFootballTeams[0].Id,
                 HomeTeamScore = 0,
                 AwayTeamId = BaseFootballTeams[1].Id,
-                AwayTeamScore = 0
+                AwayTeamScore = 0,
+                
+                HomeTeamTimeOnBall = 15,
+                HomeTeamShotsOnTarget = 10,
+                HomeTeamTotalShots = 14,
+                HomeTeamAverageExpectedGoalsPerShot = 0.2,
+                AwayTeamTimeOnBall = 15,
+                AwayTeamShotsOnTarget = 10,
+                AwayTeamTotalShots = 14,
+                AwayTeamAverageExpectedGoalsPerShot = 0.2, 
             },
             new()
             {
@@ -110,7 +119,74 @@ public class GamesControllerTest : TestsBase
                 HomeTeamId = BaseFootballTeams[1].Id,
                 HomeTeamScore = 0,
                 AwayTeamId = BaseFootballTeams[2].Id,
-                AwayTeamScore = 0
+                AwayTeamScore = 0,
+                
+                HomeTeamTimeOnBall = 15,
+                HomeTeamShotsOnTarget = 10,
+                HomeTeamTotalShots = 14,
+                HomeTeamAverageExpectedGoalsPerShot = 0.2,
+                AwayTeamTimeOnBall = 15,
+                AwayTeamShotsOnTarget = 10,
+                AwayTeamTotalShots = 14,
+                AwayTeamAverageExpectedGoalsPerShot = 0.2, 
+            },
+        };
+    }
+
+    private List<Game> GetNewGamesList()
+    {
+        var gameCreateDtos = GetGameCreateDtos();
+        return new ()
+        {
+            new Game (gameCreateDtos[0])
+            {
+                GameTime = new DateTime(2024, 1, 14),
+                HomeTeamId = BaseFootballTeams[0].Id,
+                HomeTeamScore = 0,
+                AwayTeamId = BaseFootballTeams[1].Id,
+                AwayTeamScore = 0,
+                
+                HomeTeamTimeOnBall = 15,
+                HomeTeamShotsOnTarget = 10,
+                HomeTeamTotalShots = 14,
+                HomeTeamAverageExpectedGoalsPerShot = 0.2,
+                AwayTeamTimeOnBall = 15,
+                AwayTeamShotsOnTarget = 10,
+                AwayTeamTotalShots = 14,
+                AwayTeamAverageExpectedGoalsPerShot = 0.2, 
+                
+                HomeTeamPassingAccuracy = 50,
+                HomeTeamShotAccuracy = 50,
+                HomeTeamExpectedGoals = 2,
+                AwayTeamPassingAccuracy = 50,
+                AwayTeamShotAccuracy = 50,
+                AwayTeamExpectedGoals = 2,
+                ResultIsOutOfSyncWithPerformance = true,
+            },
+            new(gameCreateDtos[1])
+            {
+                GameTime = new DateTime(2024, 1, 12),
+                HomeTeamId = BaseFootballTeams[1].Id,
+                HomeTeamScore = 0,
+                AwayTeamId = BaseFootballTeams[2].Id,
+                AwayTeamScore = 0,
+                
+                HomeTeamTimeOnBall = 15,
+                HomeTeamShotsOnTarget = 10,
+                HomeTeamTotalShots = 14,
+                HomeTeamAverageExpectedGoalsPerShot = 0.2,
+                AwayTeamTimeOnBall = 15,
+                AwayTeamShotsOnTarget = 10,
+                AwayTeamTotalShots = 14,
+                AwayTeamAverageExpectedGoalsPerShot = 0.2, 
+                
+                HomeTeamPassingAccuracy = 50,
+                HomeTeamShotAccuracy = 50,
+                HomeTeamExpectedGoals = 2,
+                AwayTeamPassingAccuracy = 50,
+                AwayTeamShotAccuracy = 50,
+                AwayTeamExpectedGoals = 2,
+                ResultIsOutOfSyncWithPerformance = true,
             },
         };
     }

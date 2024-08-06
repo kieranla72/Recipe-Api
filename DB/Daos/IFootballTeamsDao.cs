@@ -4,5 +4,5 @@ namespace DB.Daos;
 
 public interface IFootballTeamsDao
 {
-    Task SaveFootballTeams(List<FootballTeam> footballTeams);
+    Task SaveFootballTeams(List<Recipe> footballTeams);
 }

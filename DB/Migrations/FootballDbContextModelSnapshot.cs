@@ -22,7 +22,7 @@ namespace DB.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("DB.Models.FootballTeam", b =>
+            modelBuilder.Entity("DB.Models.Recipe", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,13 +83,13 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.Models.Game", b =>
                 {
-                    b.HasOne("DB.Models.FootballTeam", "AwayTeam")
+                    b.HasOne("DB.Models.Recipe", "AwayTeam")
                         .WithMany()
                         .HasForeignKey("AwayTeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DB.Models.FootballTeam", "HomeTeam")
+                    b.HasOne("DB.Models.Recipe", "HomeTeam")
                         .WithMany()
                         .HasForeignKey("HomeTeamId")
                         .OnDelete(DeleteBehavior.Cascade)

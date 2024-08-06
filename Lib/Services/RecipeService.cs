@@ -3,15 +3,15 @@ using DB.Models;
 
 namespace Lib.Services;
 
-public class FootballTeamsService : IFootballTeamsService
+public class RecipeService : IRecipeService
 {
     private readonly IFootballTeamsDao _footballTeamsDao; 
-    public FootballTeamsService(IFootballTeamsDao footballTeamsDao)
+    public RecipeService(IFootballTeamsDao footballTeamsDao)
     {
         _footballTeamsDao = footballTeamsDao;
     }
 
-    public async Task SaveFootballTeams(List<FootballTeam> footballTeams)
+    public async Task SaveRecipes(List<Recipe> footballTeams)
     {
         await _footballTeamsDao.SaveFootballTeams(footballTeams);
     }

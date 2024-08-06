@@ -23,9 +23,9 @@ public class Game
     public int Id { get; set; }
     public DateTime? GameTime { get; set; }
     public int HomeTeamId { get; set; }
-    public FootballTeam? HomeTeam { get; set; } = null!;
+    public Recipe? HomeTeam { get; set; } = null!;
     public int HomeTeamScore { get; set; }
-    public FootballTeam? AwayTeam { get; set; } = null!;
+    public Recipe? AwayTeam { get; set; } = null!;
     public int AwayTeamId { get; set; }
     public int AwayTeamScore { get; set; }
     public bool IsProcessed { get; set; }

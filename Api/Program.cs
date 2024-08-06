@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<IGamesDao, GamesDao>();
 builder.Services.AddTransient<IGamesService, GamesService>();
 builder.Services.AddTransient<IFootballTeamsDao, FootballTeamsDao>();
-builder.Services.AddTransient<IFootballTeamsService, FootballTeamsService>();
+builder.Services.AddTransient<IRecipeService, RecipeService>();
 builder.Services.AddSingleton<ICacheManagerService, CacheManagerService>();
 
 builder.Services.AddMemoryCache();

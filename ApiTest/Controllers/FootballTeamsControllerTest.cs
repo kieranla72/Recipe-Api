@@ -19,7 +19,7 @@ public class FootballTeamsControllerTest : TestsBase
         var newFootballTeams = GetNewFootballTeams();
 
         var response = await client.PostAsJsonAsync("/FootballTeams", newFootballTeams);
-        var footballTeams = await response.Content.ReadFromJsonAsync<List<FootballTeam>>();
+        var footballTeams = await response.Content.ReadFromJsonAsync<List<Recipe>>();
         var sortedFootballTeams = footballTeams.OrderBy(ft => ft.Name).ToList();
 
         newFootballTeams[0].Id = sortedFootballTeams[0].Id;
@@ -31,7 +31,7 @@ public class FootballTeamsControllerTest : TestsBase
 
     }
 
-    private List<FootballTeam> GetNewFootballTeams()
+    private List<Recipe> GetNewFootballTeams()
     {
         return
         [

@@ -11,7 +11,7 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
     protected readonly CustomWebApplicationFactory<Program> _factory;
     protected FootballDbContext _dbContext;
 
-    protected readonly List<FootballTeam> BaseFootballTeams =
+    protected readonly List<Recipe> BaseFootballTeams =
     [
         new() { Name = "Manchester United", CoefficientRanking = 0 },
         new() { Name = "Arsenal", CoefficientRanking = 0 },

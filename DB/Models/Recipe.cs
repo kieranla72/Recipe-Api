@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DB.Models;
 
-public class FootballTeam
+public class Recipe
 {
     public int Id { get; set; }
     [Required]

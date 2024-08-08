@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("Recipe")]
-public class RecipeController : Controller
+[Route("Recipes")]
+public class RecipesController : Controller
 {
     private readonly IRecipeService _recipeService;
 
-    public RecipeController(IRecipeService recipeService)
+    public RecipesController(IRecipeService recipeService)
     {
         _recipeService = recipeService;
     }

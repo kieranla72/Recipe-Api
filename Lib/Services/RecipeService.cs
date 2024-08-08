@@ -5,14 +5,14 @@ namespace Lib.Services;
 
 public class RecipeService : IRecipeService
 {
-    private readonly IFootballTeamsDao _footballTeamsDao; 
-    public RecipeService(IFootballTeamsDao footballTeamsDao)
+    private readonly IRecipesDao _RecipesDao; 
+    public RecipeService(IRecipesDao recipesDao)
     {
-        _footballTeamsDao = footballTeamsDao;
+        _RecipesDao = recipesDao;
     }
 
-    public async Task SaveRecipes(List<Recipe> footballTeams)
+    public async Task SaveRecipes(List<Recipe> recipes)
     {
-        await _footballTeamsDao.SaveFootballTeams(footballTeams);
+        await _RecipesDao.SaveRecipes(recipes);
     }
 }

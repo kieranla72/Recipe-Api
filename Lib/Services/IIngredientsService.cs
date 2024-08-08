@@ -1,0 +1,10 @@
+using DB.Models;
+
+namespace Lib.Services;
+
+public interface IIngredientsService
+{
+    Task<int> SaveIngredients(List<Ingredient> ingredients);
+    Task<List<Ingredient>> GetIngredients();
+    Task<Ingredient> GetRecipeById(int id);
+}

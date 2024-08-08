@@ -17,10 +17,10 @@ public class CacheManagerServiceTest
             return fakeData;
         };
 
-        await service.TryGetCache(CacheKeys.GamesData, 10, dataRetrieval);
-        await service.TryGetCache(CacheKeys.GamesData, 10, dataRetrieval);
-        await service.TryGetCache(CacheKeys.GamesData, 10, dataRetrieval);
-        var result = await service.TryGetCache(CacheKeys.GamesData, 10, dataRetrieval);
+        await service.TryGetCache(CacheKeys.RecipesData, 10, dataRetrieval);
+        await service.TryGetCache(CacheKeys.RecipesData, 10, dataRetrieval);
+        await service.TryGetCache(CacheKeys.RecipesData, 10, dataRetrieval);
+        var result = await service.TryGetCache(CacheKeys.RecipesData, 10, dataRetrieval);
         
         Assert.Equal(1, numberOfDataRetrievalCalls);
         Assert.Equal(fakeData, result);
@@ -39,10 +39,10 @@ public class CacheManagerServiceTest
             return fakeData;
         };
 
-        await service.TryGetCache(CacheKeys.GamesData, 0.001, dataRetrieval);
-        await service.TryGetCache(CacheKeys.GamesData, 0.001, dataRetrieval);
+        await service.TryGetCache(CacheKeys.RecipesData, 0.001, dataRetrieval);
+        await service.TryGetCache(CacheKeys.RecipesData, 0.001, dataRetrieval);
         Thread.Sleep(10);
-        await service.TryGetCache(CacheKeys.GamesData, 0.001, dataRetrieval);
+        await service.TryGetCache(CacheKeys.RecipesData, 0.001, dataRetrieval);
         
         Assert.Equal(2, numberOfDataRetrievalCalls);
     }    

@@ -1,8 +1,8 @@
 using DB.Models;
 
-namespace Lib.Services;
+namespace DB.Daos;
 
-public interface IRecipeService
+public interface IRecipesDao
 {
     Task SaveRecipes(List<Recipe> recipes);
 }

@@ -11,21 +11,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddTransient<IGamesDao, GamesDao>();
-builder.Services.AddTransient<IGamesService, GamesService>();
-builder.Services.AddTransient<IFootballTeamsDao, FootballTeamsDao>();
+builder.Services.AddTransient<IIngredientsDao, IngredientsDao>();
+builder.Services.AddTransient<IIngredientsService, IngredientsService>();
+builder.Services.AddTransient<IRecipesDao, RecipesDao>();
 builder.Services.AddTransient<IRecipeService, RecipeService>();
 builder.Services.AddSingleton<ICacheManagerService, CacheManagerService>();
 
 builder.Services.AddMemoryCache();
 
-var connectionString = builder.Configuration.GetConnectionString("SportsDbContextConnection");
-builder.Services.AddDbContext<FootballDbContext>(options => 
+var connectionString = builder.Configuration.GetConnectionString("RecipeDbContextConnection");
+builder.Services.AddDbContext<RecipeDbContext>(options => 
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21))));
 
 
 var app = builder.Build();
-var cache = app.Services.GetRequiredService<IMemoryCache>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -40,7 +39,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        var dbContext = services.GetRequiredService<FootballDbContext>();
+        var dbContext = services.GetRequiredService<RecipeDbContext>();
         dbContext.Database.Migrate();
         // Optionally, you can seed initial data here if needed
         // EnsureSeedData(dbContext);

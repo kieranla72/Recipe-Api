@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Lib.Services;
 
 public enum CacheKeys {
+    IngredientsData,
     RecipesData
 }
 

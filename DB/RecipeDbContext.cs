@@ -11,6 +11,7 @@ public class RecipeDbContext: DbContext
     public RecipeDbContext(DbContextOptions<RecipeDbContext> options)
         : base(options)
     {
+        var x = "hello";
     }
 
 }

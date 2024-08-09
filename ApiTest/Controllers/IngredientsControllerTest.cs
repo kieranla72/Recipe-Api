@@ -26,15 +26,16 @@ public class IngredientsControllerTest : TestsBase
         
         var response = await client.PostAsJsonAsync("/Ingredients", newIngredients);
         var ingredients = await response.Content.ReadFromJsonAsync<List<Ingredient>>();
-        var sortedIngredients = ingredients.OrderByDescending(g => g.Title).ToList();
+        var sortedIngredients = ingredients.OrderBy(g => g.Title).ToList();
         newIngredients[0].Id = sortedIngredients[0].Id;
         newIngredients[1].Id = sortedIngredients[1].Id;
+        newIngredients[2].Id = sortedIngredients[2].Id;
 
         var insertedIngredients = await _dbContext.Ingredients.ToListAsync();
         
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal(2, ingredients.Count);
+        Assert.Equal(3, ingredients.Count);
         Assert.True(_ingredientsComparer.Equals(newIngredients, sortedIngredients));
         Assert.True(_ingredientsComparer.Equals(newIngredients, insertedIngredients));
     }
@@ -62,7 +63,7 @@ public class IngredientsControllerTest : TestsBase
         var ingredientsToAdd = await SaveIngredientsToDb();
         var client = _factory.CreateClient();
 
-        // Act
+        // Act  
         var response = await client.GetAsync($"/Ingredients/{ingredientsToAdd[0].Id}");
 
         // Assert
@@ -103,11 +104,11 @@ public class IngredientsControllerTest : TestsBase
             },
             new()
             {
-                Title = "White Rice"
+                Title = "Kidney Beans"
             },
             new()
             {
-                Title = "Kidney Beans"
+                Title = "White Rice"
             },
         };
     }

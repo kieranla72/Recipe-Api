@@ -1,4 +1,5 @@
 using DB.Models;
+using Lib.Exceptions;
 using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,8 +29,25 @@ public class IngredientsController : Controller
     public async Task<IActionResult> Get()
     {
         var retrievalFunction = async () => await _ingredientsService.GetIngredients();
-        var ingredients = await _cacheManagerService.TryGetCache(CacheKeys.RecipesData, 20, retrievalFunction);
+        var ingredients = await _cacheManagerService.TryGetCache(CacheKeys.IngredientsData, 20, retrievalFunction);
 
         return Ok(ingredients);
+    }    
+    
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        try
+        {
+            var retrievalFunction = async () => await _ingredientsService.GetIngredientById(id);
+            var ingredient = await _cacheManagerService.TryGetCache(CacheKeys.IngredientsData, 20, retrievalFunction);
+
+            return Ok(ingredient);
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
     }
 }

@@ -27,7 +27,7 @@ public class IngredientsService : IIngredientsService
         return ingredients.OrderByDescending(g => g.Title).ToList();
     }
     
-    public async Task<Ingredient> GetRecipeById(int id)
+    public async Task<Ingredient> GetIngredientById(int id)
     {
         var sportsData = await _ingredientsDao.GetIngredientsById(id);
         if (sportsData == null)

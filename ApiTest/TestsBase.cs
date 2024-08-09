@@ -26,6 +26,7 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
             .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             .Options;
         _dbContext = new RecipeDbContext(options);
+        // _dbContext.Database.Migrate();
         _dbContext.Recipes.AddRange(BaseRecipes);
         _dbContext.SaveChanges();
     }

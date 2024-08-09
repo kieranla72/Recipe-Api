@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using DB.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiTest.Controllers;
 
@@ -24,10 +25,15 @@ public class RecipesControllerTest : TestsBase
 
         newRecipes[0].Id = sortedRecipes[0].Id;
         newRecipes[1].Id = sortedRecipes[1].Id;
+        
+        var insertedIngredients = await _dbContext.Recipes.ToListAsync();
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(2, newRecipes.Count);
         Assert.Equal(JsonSerializer.Serialize(newRecipes), JsonSerializer.Serialize(recipes));
+        var newRecipeIds = new List<int> { newRecipes[0].Id, newRecipes[1].Id };
+        Assert.Equal(JsonSerializer.Serialize(newRecipes),
+            JsonSerializer.Serialize(insertedIngredients.Where(i => newRecipeIds.Contains(i.Id))));
 
     }
 

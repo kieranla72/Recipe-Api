@@ -11,6 +11,7 @@ public class Recipe
     public string? Description { get; set; }
     [Required]
     public int CookingTimeInMinutes { get; set; }
-    
-    
+
+    public List<Ingredient> Ingredients { get; } = [];
+    public List<RecipeIngredient> RecipeIngredients { get; } = [];
 }

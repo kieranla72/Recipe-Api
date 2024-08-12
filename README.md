@@ -4,7 +4,7 @@
 The database schema is managed code-first for this project, using EF core migrations. 
 This means any time you update `DB/Migrations`, you will need to add a new migration.
 
-You can do this by running `dotnet ef migrations add NewMigration --project ../DB`.
+You can do this by running `dotnet ef migrations add NEW_MIGRATION_NAME --project ../DB`.
 
 If you realise this migration was incorrect and you don't want to apply it, you can run
 the command `dotnet ef migrations remove --project ../DB`.

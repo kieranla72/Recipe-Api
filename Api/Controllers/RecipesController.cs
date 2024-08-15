@@ -22,4 +22,12 @@ public class RecipesController : Controller
         await _recipeService.SaveRecipes(recipes);
         return Created($"{recipes.Count} teams created", recipes);
     }
+    
+    [Route("")]
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var recipes = await _recipeService.GetRecipes();
+        return Ok(recipes);
+    }
 }

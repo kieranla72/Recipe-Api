@@ -18,4 +18,10 @@ public class RecipesDao : IRecipesDao
         _recipesTable.AddRange(recipes);
         await _recipeDbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Recipe>> GetRecipes()
+    {
+        var recipes = await _recipesTable.Include(r => r.Ingredients).ToListAsync();
+        return recipes;
+    }
 }

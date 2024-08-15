@@ -1,8 +1,9 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using DB;
 using DB.Daos;
 using Lib.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
+JsonSerializerOptions jsonOptions = new()
+{
+    ReferenceHandler = ReferenceHandler.IgnoreCycles,
+};
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddTransient<IIngredientsDao, IngredientsDao>();
 builder.Services.AddTransient<IIngredientsService, IngredientsService>();
 builder.Services.AddTransient<IRecipesDao, RecipesDao>();

@@ -12,6 +12,6 @@ public class Recipe
     [Required]
     public int CookingTimeInMinutes { get; set; }
 
-    public List<Ingredient> Ingredients { get; } = [];
-    public List<RecipeIngredient> RecipeIngredients { get; } = [];
+    public List<Ingredient> Ingredients { get; set; } = [];
+    public List<RecipeIngredient> RecipeIngredients { get; set; } = [];
 }

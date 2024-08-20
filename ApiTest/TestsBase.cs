@@ -33,7 +33,6 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
             .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             .Options;
         _dbContext = new RecipeDbContext(options);
-        // _dbContext.Database.Migrate();
         _dbContext.Recipes.AddRange(BaseRecipes);
         _dbContext.SaveChanges();
     }
@@ -44,7 +43,6 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         
         await _dbContext.Ingredients.AddRangeAsync(ingredients);
         await _dbContext.SaveChangesAsync();
-
     }
 
     public async Task<List<RecipeIngredient>> LinkBaseRecipeIngredients()

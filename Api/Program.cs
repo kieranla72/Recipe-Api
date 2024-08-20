@@ -24,6 +24,7 @@ builder.Services.AddTransient<IIngredientsDao, IngredientsDao>();
 builder.Services.AddTransient<IIngredientsService, IngredientsService>();
 builder.Services.AddTransient<IRecipesDao, RecipesDao>();
 builder.Services.AddTransient<IRecipeService, RecipeService>();
+builder.Services.AddTransient<IRecipeIngredientsDao, RecipeIngredientsDao>();
 builder.Services.AddSingleton<ICacheManagerService, CacheManagerService>();
 
 builder.Services.AddMemoryCache();

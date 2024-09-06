@@ -14,7 +14,8 @@ public class RecipeService : IRecipeService
 
     public async Task SaveRecipes(List<Recipe> recipes)
     {
-        await _recipesDao.SaveRecipes(recipes);
+        var recipesWithoutIngredients = recipes.Select(r => new Recipe(r)).ToList();
+        await _recipesDao.SaveRecipes(recipesWithoutIngredients);
     }
 
     private List<RecipeIngredient> GetRecipeIngredients(List<Recipe> recipes)

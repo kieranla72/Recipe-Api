@@ -23,7 +23,7 @@ public class RecipesController : Controller
         try
         {
             await _recipeService.SaveRecipes(recipes);
-            return Created($"{recipes.Count} teams created", recipes);
+            return Created("s", recipes);
         }
         catch (Exception e)
         {
@@ -38,7 +38,9 @@ public class RecipesController : Controller
     public async Task<IActionResult> Get()
     {
         var recipes = await _recipeService.GetRecipes();
-        var recipeDtos = recipes.Select(r => new RecipeResponseDto(r)).ToList();
+        var recipeDtos = recipes.Select(ProjectRecipeModel).ToList();
         return Ok(recipeDtos);
     }
+
+    private RecipeResponseDto ProjectRecipeModel(Recipe recipe) => new(recipe);
 }

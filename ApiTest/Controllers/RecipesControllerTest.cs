@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Api.ResponseModels;
 using ApiTest.Comparers;
 using DB.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +13,11 @@ namespace ApiTest.Controllers;
 public class RecipesControllerTest : TestsBase
 {
     private RecipesComparer _recipesComparer;
+    private RecipeResponseDtosComparer _recipeResponseDtosComparer;
     public RecipesControllerTest(CustomWebApplicationFactory<Program> factory) : base(factory)
     {
         _recipesComparer = new RecipesComparer();
+        _recipeResponseDtosComparer = new RecipeResponseDtosComparer();
     }
 
     [Fact]
@@ -80,12 +83,12 @@ public class RecipesControllerTest : TestsBase
         var client = _factory.CreateClient();
 
         var response = await client.GetAsync("/Recipes");
-        var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
+        var recipes = await response.Content.ReadFromJsonAsync<List<RecipeResponseDto>>();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(recipes);
         Assert.Equal(2, recipes.Count);
-        Assert.Equal(JsonSerializer.Serialize(BaseRecipes), JsonSerializer.Serialize(recipes));
+        Assert.Equal(JsonSerializer.Serialize(GetRecipeResponseDtos(BaseRecipes)), JsonSerializer.Serialize(recipes));
     }
     
     [Fact]
@@ -95,18 +98,12 @@ public class RecipesControllerTest : TestsBase
         await LinkBaseRecipeIngredients();
 
         var response = await client.GetAsync("/Recipes");
-        var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
+        var recipes = await response.Content.ReadFromJsonAsync<List<RecipeResponseDto>>();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(recipes);
         Assert.Equal(2, recipes.Count);
-        JsonSerializerOptions jsonOptions = new()
-        {
-            ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            
-        };
-        Assert.True(_recipesComparer.Equals(BaseRecipes, recipes));
+        Assert.True(_recipeResponseDtosComparer.Equals(GetRecipeResponseDtos(BaseRecipes), recipes));
     }
 
     private List<Recipe> GetNewRecipes()
@@ -168,12 +165,15 @@ public class RecipesControllerTest : TestsBase
             new()
             {
                 Title = "Jerk Chicken", Description = "A Spicy chicken and rice meal", CookingTimeInMinutes = 60,
-                RecipeIngredients = new List<RecipeIngredient> { recipeIngredients[0], recipeIngredients[1] }
+                RecipeIngredients = new List<RecipeIngredient> { recipeIngredients[0], recipeIngredients[1] },
+                Ingredients = new List<Ingredient> { ingredients[0], ingredients[1] }
             },
             new()
             {
                 Title = "Milanese Risotto", CookingTimeInMinutes = 40,
-                RecipeIngredients = new List<RecipeIngredient> { recipeIngredients[2] }
+                RecipeIngredients = new List<RecipeIngredient> { recipeIngredients[2] },
+                Ingredients = new List<Ingredient> { ingredients[2] }
+
             },
         ];
     }

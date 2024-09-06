@@ -1,3 +1,4 @@
+using Api.ResponseModels;
 using DB.Models;
 using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,15 +20,25 @@ public class RecipesController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] List<Recipe> recipes)
     {
-        await _recipeService.SaveRecipes(recipes);
-        return Created($"{recipes.Count} teams created", recipes);
+        try
+        {
+            await _recipeService.SaveRecipes(recipes);
+            return Created($"{recipes.Count} teams created", recipes);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("There was an error with saving the recipe");
+            Console.WriteLine(e);
+            throw;
+        }
     }
-    
+
     [Route("")]
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         var recipes = await _recipeService.GetRecipes();
-        return Ok(recipes);
+        var recipeDtos = recipes.Select(r => new RecipeResponseDto(r)).ToList();
+        return Ok(recipeDtos);
     }
 }

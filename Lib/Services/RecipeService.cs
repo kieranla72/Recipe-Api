@@ -6,19 +6,15 @@ namespace Lib.Services;
 public class RecipeService : IRecipeService
 {
     private readonly IRecipesDao _recipesDao;
-    private readonly IRecipeIngredientsDao _recipeIngredientsDao;
 
-    public RecipeService(IRecipesDao recipesDao, IRecipeIngredientsDao recipeIngredientsDao)
+    public RecipeService(IRecipesDao recipesDao)
     {
         _recipesDao = recipesDao;
-        _recipeIngredientsDao = recipeIngredientsDao;
     }
 
     public async Task SaveRecipes(List<Recipe> recipes)
     {
         await _recipesDao.SaveRecipes(recipes);
-        // var recipesToInsert = GetRecipeIngredients(recipes);
-        // await _recipeIngredientsDao.SaveRecipeIngredients(recipesToInsert);
     }
 
     private List<RecipeIngredient> GetRecipeIngredients(List<Recipe> recipes)

@@ -1,3 +1,4 @@
+using Api.ResponseModels;
 using DB;
 using DB.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -45,7 +46,7 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<RecipeIngredient>> LinkBaseRecipeIngredients()
+    protected async Task<List<RecipeIngredient>> LinkBaseRecipeIngredients()
     {
         await InsertIngredients();
         List<RecipeIngredient> recipeIngredients = new()
@@ -79,6 +80,11 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         await _dbContext.RecipeIngredients.AddRangeAsync(recipeIngredients);
         await _dbContext.SaveChangesAsync();
         return recipeIngredients;
+    }
+
+    protected List<RecipeResponseDto> GetRecipeResponseDtos(List<Recipe> recipes)
+    {
+        return recipes.Select(r => new RecipeResponseDto(r)).ToList();
     }
 
     public async void Dispose()

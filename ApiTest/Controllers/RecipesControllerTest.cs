@@ -113,6 +113,29 @@ public class RecipesControllerTest : TestsBase
         Assert.Equal(2, recipes.Count);
         Assert.True(_recipeResponseDtosComparer.Equals(GetRecipeResponseDtos(BaseRecipes), recipes));
     }
+    
+    [Fact]
+    public async Task GetRecipeById()
+    {
+        var client = _factory.CreateClient();
+
+        var response = await client.GetAsync($"/Recipes/{BaseRecipes[0].Id}");
+        var recipe = await response.Content.ReadFromJsonAsync<RecipeResponseDto>();
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotNull(recipe);
+        Assert.True(_recipeResponseDtosComparer.Equals(GetRecipeResponseDtos(BaseRecipes)[0], recipe));
+    }
+    
+    [Fact]
+    public async Task GetRecipeById_NotFoundStatusCode()
+    {
+        var client = _factory.CreateClient();
+        var idWithNoCorrespondingRecipes = 123123123;
+
+        var response = await client.GetAsync($"/Recipes/{idWithNoCorrespondingRecipes}");
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
 
     private List<Recipe> GetNewRecipes()
     {

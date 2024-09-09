@@ -24,4 +24,10 @@ public class RecipesDao : IRecipesDao
         var recipes = await _recipesTable.Include(r => r.Ingredients).ToListAsync();
         return recipes;
     }
+
+    public async Task<Recipe?> GetRecipeById(int id)
+    {
+        var recipe = await _recipesTable.FindAsync(id);
+        return recipe;
+    }
 }

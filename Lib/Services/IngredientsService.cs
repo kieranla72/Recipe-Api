@@ -27,7 +27,7 @@ public class IngredientsService : IIngredientsService
     
     public async Task<Ingredient> GetIngredientById(int id)
     {
-        var sportsData = await _ingredientsDao.GetIngredientsById(id);
+        var sportsData = await _ingredientsDao.GetIngredientById(id);
         if (sportsData == null)
         {
             throw new NotFoundException($"Could not find sports data with id {id}");

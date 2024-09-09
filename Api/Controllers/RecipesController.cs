@@ -1,5 +1,6 @@
 using Api.ResponseModels;
 using DB.Models;
+using Lib.Exceptions;
 using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,6 +41,22 @@ public class RecipesController : Controller
         var recipes = await _recipeService.GetRecipes();
         var recipeDtos = recipes.Select(ProjectRecipeModel).ToList();
         return Ok(recipeDtos);
+    }
+    
+    [Route("{id}")]
+    [HttpGet]
+    public async Task<IActionResult> Get(int id)
+    {
+        try
+        {
+            var recipes = await _recipeService.GetRecipeById(id);
+            return Ok(recipes);
+
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     private RecipeResponseDto ProjectRecipeModel(Recipe recipe) => new(recipe);

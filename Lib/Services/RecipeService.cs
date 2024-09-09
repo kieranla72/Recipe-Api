@@ -1,5 +1,6 @@
 using DB.Daos;
 using DB.Models;
+using Lib.Exceptions;
 
 namespace Lib.Services;
 
@@ -40,5 +41,16 @@ public class RecipeService : IRecipeService
     {
         var recipes = await _recipesDao.GetRecipes();
         return recipes.OrderBy(r => r.Title).ToList();
+    }
+
+    public async Task<Recipe> GetRecipeById(int id)
+    {
+        var recipe = await _recipesDao.GetRecipeById(id);
+        if (recipe == null)
+        {
+            throw new NotFoundException($"Could not find a recipe corresponding to id {id}");
+        }
+
+        return recipe;
     }
 }

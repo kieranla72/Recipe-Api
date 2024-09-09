@@ -26,7 +26,7 @@ public class IngredientsDao : IIngredientsDao
             _ingredientsTable.ToListAsync();
         return ingredients;
     }    
-    public async Task<Ingredient?> GetIngredientsById(int id)
+    public async Task<Ingredient?> GetIngredientById(int id)
     {
         var ingredient = await _ingredientsTable.FindAsync(id);
         return ingredient;

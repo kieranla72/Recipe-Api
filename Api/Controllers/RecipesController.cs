@@ -22,8 +22,8 @@ public class RecipesController : Controller
     {
         try
         {
-            await _recipeService.SaveRecipes(recipes);
-            return Created("s", recipes);
+            var insertedRecipes = await _recipeService.SaveRecipes(recipes);
+            return Created("s", insertedRecipes);
         }
         catch (Exception e)
         {

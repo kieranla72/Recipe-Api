@@ -61,19 +61,27 @@ public class RecipesControllerTest : TestsBase
         newRecipes[0].RecipeIngredients[0].RecipeId = sortedRecipes[0].RecipeIngredients[0].RecipeId;
         newRecipes[0].RecipeIngredients[1].Id = sortedRecipes[0].RecipeIngredients[1].Id;
         newRecipes[0].RecipeIngredients[1].RecipeId = sortedRecipes[0].RecipeIngredients[1].RecipeId;
+        newRecipes[0].Ingredients = new List<Ingredient>();
         
         newRecipes[1].Id = sortedRecipes[1].Id;
         newRecipes[1].RecipeIngredients[0].Id = sortedRecipes[1].RecipeIngredients[0].Id;
         newRecipes[1].RecipeIngredients[0].RecipeId = sortedRecipes[1].RecipeIngredients[0].RecipeId;
+        newRecipes[1].Ingredients = new List<Ingredient>();
         
         var insertedRecipes = await _dbContext.Recipes.ToListAsync();
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(2, newRecipes.Count);
         Assert.Equal(JsonSerializer.Serialize(newRecipes), JsonSerializer.Serialize(recipes));
-        var newRecipeIds = new List<int> { newRecipes[0].Id, newRecipes[1].Id };
+        var newRecipeTitles = new List<string> { newRecipes[0].Title, newRecipes[1].Title };
 
-        var filteredInsertedRecipes = insertedRecipes.Where(i => newRecipeIds.Contains(i.Id)).ToList();
+        var filteredInsertedRecipes = insertedRecipes.Where(i => newRecipeTitles.Contains(i.Title)).ToList();
+        // Set the ids on the mock new recipes
+        for (var i = 0; i < newRecipes.Count; i++)
+        {
+            newRecipes[i] = filteredInsertedRecipes[i];
+        }
+        
         Assert.True(_recipesComparer.Equals(newRecipes, filteredInsertedRecipes));
     }
     

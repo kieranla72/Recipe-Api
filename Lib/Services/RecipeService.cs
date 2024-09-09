@@ -12,10 +12,11 @@ public class RecipeService : IRecipeService
         _recipesDao = recipesDao;
     }
 
-    public async Task SaveRecipes(List<Recipe> recipes)
+    public async Task<List<Recipe>> SaveRecipes(List<Recipe> recipes)
     {
         var recipesWithoutIngredients = recipes.Select(r => new Recipe(r)).ToList();
         await _recipesDao.SaveRecipes(recipesWithoutIngredients);
+        return recipesWithoutIngredients;
     }
 
     private List<RecipeIngredient> GetRecipeIngredients(List<Recipe> recipes)

@@ -30,4 +30,10 @@ public class RecipesDao : IRecipesDao
         var recipe = await _recipesTable.FindAsync(id);
         return recipe;
     }
+
+    public async Task<Recipe> UpdateRecipe(Recipe updatedRecipe)
+    {
+        _recipesTable.Update(updatedRecipe);
+        return updatedRecipe;
+    }
 }

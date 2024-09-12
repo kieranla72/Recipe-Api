@@ -19,23 +19,7 @@ public class RecipeService : IRecipeService
         await _recipesDao.SaveRecipes(recipesWithoutIngredients);
         return recipesWithoutIngredients;
     }
-
-    private List<RecipeIngredient> GetRecipeIngredients(List<Recipe> recipes)
-    {
-        var recipeIngredients = new List<RecipeIngredient>();
-
-        foreach (var recipe in recipes)
-        {
-            if (recipe.RecipeIngredients.Count == 0) continue;
-            
-            foreach (var recipeIngredient in recipe.RecipeIngredients)
-            {
-                recipeIngredients.Add(new RecipeIngredient(recipeIngredient, recipe.Id));
-            }
-        }
-
-        return recipeIngredients;
-    }
+    
 
     public async Task<List<Recipe>> GetRecipes()
     {
@@ -52,5 +36,10 @@ public class RecipeService : IRecipeService
         }
 
         return recipe;
+    }
+
+    public async Task<Recipe> UpdateRecipe(Recipe updatedRecipe)
+    {
+        return await _recipesDao.UpdateRecipe(updatedRecipe);
     }
 }

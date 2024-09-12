@@ -85,6 +85,26 @@ public class RecipesControllerTest : TestsBase
         Assert.True(_recipesComparer.Equals(newRecipes, filteredInsertedRecipes));
     }
     
+    
+    [Fact]
+    public async Task UpdateRecipe()
+    {
+        var client = _factory.CreateClient();
+        var newRecipe = BaseRecipes[0];
+        var newRecipeTitle = "This is a new recipe title";
+        newRecipe.Title = newRecipeTitle;
+
+        var response = await client.PutAsJsonAsync("/Recipes", newRecipe);
+        var recipe = await response.Content.ReadFromJsonAsync<Recipe>();
+
+        var insertedRecipe = await _dbContext.Recipes.FindAsync(newRecipe.Id);
+
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        Assert.Equal(newRecipeTitle, recipe.Title);
+        Assert.Equal(newRecipeTitle, insertedRecipe.Title);
+    }
+
+    
     [Fact]
     public async Task GetRecipes()
     {

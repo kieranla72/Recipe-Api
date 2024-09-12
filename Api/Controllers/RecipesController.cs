@@ -21,17 +21,8 @@ public class RecipesController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] List<Recipe> recipes)
     {
-        try
-        {
-            var insertedRecipes = await _recipeService.SaveRecipes(recipes);
-            return Created("s", insertedRecipes);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("There was an error with saving the recipe");
-            Console.WriteLine(e);
-            throw;
-        }
+        var insertedRecipes = await _recipeService.SaveRecipes(recipes);
+        return Created("s", insertedRecipes);
     }
 
     [Route("")]
@@ -57,6 +48,14 @@ public class RecipesController : Controller
         {
             return NotFound();
         }
+    }
+
+    [Route("")]
+    [HttpPut]
+    public async Task<IActionResult> Put([FromBody] Recipe updatedRecipe)
+    {
+        await _recipeService.UpdateRecipe(updatedRecipe);
+        return Created("s", updatedRecipe);
     }
 
     private RecipeResponseDto ProjectRecipeModel(Recipe recipe) => new(recipe);

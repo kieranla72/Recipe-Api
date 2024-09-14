@@ -20,12 +20,14 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
+builder.Services.AddSingleton<ICacheManagerService, CacheManagerService>();
 builder.Services.AddTransient<IIngredientsDao, IngredientsDao>();
 builder.Services.AddTransient<IIngredientsService, IngredientsService>();
 builder.Services.AddTransient<IRecipesDao, RecipesDao>();
 builder.Services.AddTransient<IRecipeService, RecipeService>();
 builder.Services.AddTransient<IRecipeIngredientsDao, RecipeIngredientsDao>();
-builder.Services.AddSingleton<ICacheManagerService, CacheManagerService>();
+builder.Services.AddTransient<IRecipeGroupsService, RecipeGroupsService>();
+builder.Services.AddTransient<IRecipeGroupsDao, RecipeGroupsDao>();
 
 builder.Services.AddMemoryCache();
 

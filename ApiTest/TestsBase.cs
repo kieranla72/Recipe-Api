@@ -25,6 +25,11 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         new() { Title = "Cheese" }, // Toastie
     ];
 
+    protected readonly List<RecipeGroup> RecipeGroups =
+    [
+        new() { Title = "High Protein", Description = "A meal that offers a lot of protein" }
+    ];
+
     public TestsBase(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;

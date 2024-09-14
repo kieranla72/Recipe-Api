@@ -5,9 +5,11 @@ namespace DB;
 
 public class RecipeDbContext: DbContext
 {
-    public DbSet<Ingredient> Ingredients { get; set; }
-    public DbSet<Recipe> Recipes { get; set; }
-    public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
+    public DbSet<Ingredient> Ingredients { get; init; }
+    public DbSet<Recipe> Recipes { get; init; }
+    public DbSet<RecipeIngredient> RecipeIngredients { get; init; }
+    public DbSet<RecipeGroup> RecipeGroups { get; init; }
+    public DbSet<RecipeGroupRecipe> RecipeGroupRecipes { get; init; }
 
     public RecipeDbContext(DbContextOptions<RecipeDbContext> options)
         : base(options)

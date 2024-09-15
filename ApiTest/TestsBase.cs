@@ -25,7 +25,7 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         new() { Title = "Cheese" }, // Toastie
     ];
 
-    protected readonly List<RecipeGroup> RecipeGroups =
+    protected readonly List<RecipeGroup> BaseRecipeGroups =
     [
         new() { Title = "High Protein", Description = "A meal that offers a lot of protein" }
     ];
@@ -90,6 +90,13 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
     protected List<RecipeResponseDto> GetRecipeResponseDtos(List<Recipe> recipes)
     {
         return recipes.Select(r => new RecipeResponseDto(r)).ToList();
+    }
+
+    protected async Task<List<RecipeGroup>> InsertRecipeGroups(List<RecipeGroup> recipeGroups)
+    {
+        await _dbContext.RecipeGroups.AddRangeAsync(recipeGroups);
+        await _dbContext.SaveChangesAsync();
+        return recipeGroups;
     }
 
     public async void Dispose()

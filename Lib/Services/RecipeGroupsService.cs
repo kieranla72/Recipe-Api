@@ -16,4 +16,10 @@ public class RecipeGroupsService: IRecipeGroupsService
     {
         return _recipeGroupsDao.CreateRecipeGroup(recipeGroup);
     }
+
+    public Task<int> AddRecipeToRecipeGroup(int groupId, int recipeId)
+    {
+        var recipeGroupRecipe = new RecipeGroupRecipe { RecipeGroupId = groupId, RecipeId = recipeId };
+        return _recipeGroupsDao.AddRecipeToRecipeGroup(recipeGroupRecipe);
+    }
 }

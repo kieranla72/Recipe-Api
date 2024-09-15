@@ -21,4 +21,11 @@ public class RecipeGroupsController : Controller
         await _recipeGroupsService.CreateRecipeGroup(recipeGroup);
         return Created(recipeGroup.Id.ToString(), recipeGroup);
     }
+    
+    [HttpPost("{recipeGroupId}")]
+    public async Task<IActionResult> Create(int recipeGroupId, [FromBody] int recipeId)
+    {
+        await _recipeGroupsService.AddRecipeToRecipeGroup(recipeGroupId, recipeId);
+        return Created();
+    }
 }

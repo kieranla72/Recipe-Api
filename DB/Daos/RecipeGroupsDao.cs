@@ -27,4 +27,10 @@ public class RecipeGroupsDao : IRecipeGroupsDao
         await _recipeGroupRecipesTable.AddAsync(recipeGroupRecipe);
         return await _recipeDbContext.SaveChangesAsync();
     }
+
+    public async Task<List<RecipeGroup>> GetRecipeGroups()
+    {
+        var recipeGroups = await _recipeGroupsTable.ToListAsync();
+        return recipeGroups;
+    }
 }

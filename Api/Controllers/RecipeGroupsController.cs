@@ -1,3 +1,4 @@
+using Api.ResponseModels;
 using DB.Models;
 using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -27,5 +28,13 @@ public class RecipeGroupsController : Controller
     {
         await _recipeGroupsService.AddRecipeToRecipeGroup(recipeGroupId, recipeId);
         return Created();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var recipeGroups = await _recipeGroupsService.GetRecipeGroups();
+        var recipeGroupResponseDtos = recipeGroups.Select(rg => new RecipeGroupResponseDto(rg));
+        return Ok(recipeGroupResponseDtos);
     }
 }

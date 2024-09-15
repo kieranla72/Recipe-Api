@@ -27,7 +27,8 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
 
     protected readonly List<RecipeGroup> BaseRecipeGroups =
     [
-        new() { Title = "High Protein", Description = "A meal that offers a lot of protein" }
+        new() { Title = "High Protein", Description = "A meal that offers a lot of protein" },
+        new() { Title = "Vegetarian", Description = "No meat" }
     ];
 
     public TestsBase(CustomWebApplicationFactory<Program> factory)
@@ -50,7 +51,7 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         await _dbContext.Ingredients.AddRangeAsync(ingredients);
         await _dbContext.SaveChangesAsync();
     }
-
+    
     protected async Task<List<RecipeIngredient>> LinkBaseRecipeIngredients()
     {
         await InsertIngredients();
@@ -103,5 +104,8 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
     {
         await _dbContext.Ingredients.ExecuteDeleteAsync();
         await _dbContext.Recipes.ExecuteDeleteAsync();
+        await _dbContext.RecipeIngredients.ExecuteDeleteAsync();
+        await _dbContext.RecipeGroups.ExecuteDeleteAsync();
+        await _dbContext.RecipeGroupRecipes.ExecuteDeleteAsync();
     }
 }

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Api.ResponseModels;
 using DB.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,6 +46,20 @@ public class RecipeGroupsControllerTest : TestsBase
 
         Assert.NotNull(insertedRecipeGroup);
         Assert.IsType<RecipeGroupRecipe>(insertedRecipeGroup);
+    }
+    
+    [Fact]
+    public async Task GetRecipeGroups()
+    {
+        var client = _factory.CreateClient();
+        var recipeGroups = await InsertRecipeGroups(BaseRecipeGroups);
+
+        var response = await client.GetAsync($"/RecipeGroups");
+        var recipeGroupResponses = await response.Content.ReadFromJsonAsync<List<RecipeGroupResponseDto>>();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+
+        Assert.Equal(JsonSerializer.Serialize(recipeGroups), JsonSerializer.Serialize(recipeGroupResponses));
     }
 
 }

@@ -22,4 +22,9 @@ public class RecipeGroupsService: IRecipeGroupsService
         var recipeGroupRecipe = new RecipeGroupRecipe { RecipeGroupId = groupId, RecipeId = recipeId };
         return _recipeGroupsDao.AddRecipeToRecipeGroup(recipeGroupRecipe);
     }
+
+    public Task<List<RecipeGroup>> GetRecipeGroups()
+    {
+        return _recipeGroupsDao.GetRecipeGroups();
+    }
 }

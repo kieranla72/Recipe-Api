@@ -3,9 +3,9 @@ using DB.Models;
 
 namespace ApiTest.Comparers;
 
-public class IngredientResponseDtosComparer : IEqualityComparer<List<IngredientResponseDto>>
+public class RecipeIngredientsResponseDtosComparer : IEqualityComparer<List<RecipeIngredientsResponseDto>>
 {
-    public bool Equals(List<IngredientResponseDto>? list1, List<IngredientResponseDto>? list2)
+    public bool Equals(List<RecipeIngredientsResponseDto>? list1, List<RecipeIngredientsResponseDto>? list2)
     {
         if (ReferenceEquals(list1, list2))
             return true;
@@ -29,7 +29,7 @@ public class IngredientResponseDtosComparer : IEqualityComparer<List<IngredientR
         return true;
     }
 
-    public bool Equals(IngredientResponseDto? ingredient1, IngredientResponseDto? ingredient2)
+    public bool Equals(RecipeIngredientsResponseDto? ingredient1, RecipeIngredientsResponseDto? ingredient2)
     {
         if (ReferenceEquals(ingredient1, ingredient2))
             return true;
@@ -40,7 +40,7 @@ public class IngredientResponseDtosComparer : IEqualityComparer<List<IngredientR
         return IngredientResponseDtosAreEqual(ingredient1, ingredient2);
     }
 
-    public int GetHashCode(List<IngredientResponseDto> list)
+    public int GetHashCode(List<RecipeIngredientsResponseDto> list)
     {
         unchecked
         {
@@ -53,7 +53,7 @@ public class IngredientResponseDtosComparer : IEqualityComparer<List<IngredientR
         }
     }
 
-    private bool IngredientResponseDtosAreEqual(IngredientResponseDto ingredient1, IngredientResponseDto ingredient2)
+    private bool IngredientResponseDtosAreEqual(RecipeIngredientsResponseDto ingredient1, RecipeIngredientsResponseDto ingredient2)
     {
         // Compare Id, Title
         return ingredient1.Id == ingredient2.Id &&
@@ -64,7 +64,7 @@ public class IngredientResponseDtosComparer : IEqualityComparer<List<IngredientR
                ingredient1.UnitOfQuantity == ingredient2.UnitOfQuantity;
     }
     
-    private int GetIngredientHashCode(IngredientResponseDto ingredient)
+    private int GetIngredientHashCode(RecipeIngredientsResponseDto ingredient)
     {
         unchecked
         {

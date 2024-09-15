@@ -15,11 +15,11 @@ public class RecipeResponseDto
         Ingredients = GetIngredientsResponseDto(recipe.Ingredients, recipe.RecipeIngredients);
     }
 
-    private List<IngredientResponseDto> GetIngredientsResponseDto(List<Ingredient> ingredients, List<RecipeIngredient> recipeIngredients)
+    private List<RecipeIngredientsResponseDto> GetIngredientsResponseDto(List<Ingredient> ingredients, List<RecipeIngredient> recipeIngredients)
     {
         var ingredientIdToIngredientDict = ingredients.ToDictionary(i => i.Id, i => i);
         var ingredientsResponseDtos =
-            recipeIngredients.Select(ri => new IngredientResponseDto(ingredientIdToIngredientDict[ri.IngredientId], ri))
+            recipeIngredients.Select(ri => new RecipeIngredientsResponseDto(ingredientIdToIngredientDict[ri.IngredientId], ri))
                 .ToList();
         return ingredientsResponseDtos;
     }
@@ -28,13 +28,13 @@ public class RecipeResponseDto
     public string Title { get; init; }
     public string? Description { get; init; }
     public int CookingTimeInMinutes { get; init; }
-    public List<IngredientResponseDto> Ingredients { get; init; }
+    public List<RecipeIngredientsResponseDto> Ingredients { get; init; }
 }
 
-public class IngredientResponseDto
+public class RecipeIngredientsResponseDto
 {
-    public IngredientResponseDto() {}
-    public IngredientResponseDto(Ingredient ingredient, RecipeIngredient recipeIngredient)
+    public RecipeIngredientsResponseDto() {}
+    public RecipeIngredientsResponseDto(Ingredient ingredient, RecipeIngredient recipeIngredient)
     {
         Id = ingredient.Id;
         Title = ingredient.Title;

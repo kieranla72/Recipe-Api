@@ -1,3 +1,4 @@
+using Api.ResponseModels;
 using DB.Models;
 using Lib.Exceptions;
 using Lib.Services;
@@ -30,8 +31,9 @@ public class IngredientsController : Controller
     {
         var retrievalFunction = async () => await _ingredientsService.GetIngredients();
         var ingredients = await _cacheManagerService.TryGetCache(CacheKeys.IngredientsData, 20, retrievalFunction);
+        var ingredientResponseDtos = ingredients.Select(i => new IngredientResponseDto(i)).ToList();
 
-        return Ok(ingredients);
+        return Ok(ingredientResponseDtos);
     }    
     
     [HttpGet]
@@ -43,7 +45,7 @@ public class IngredientsController : Controller
             var retrievalFunction = async () => await _ingredientsService.GetIngredientById(id);
             var ingredient = await _cacheManagerService.TryGetCache(CacheKeys.IngredientsData, 20, retrievalFunction);
 
-            return Ok(ingredient);
+            return Ok(new IngredientResponseDto(ingredient));
         }
         catch (NotFoundException)
         {

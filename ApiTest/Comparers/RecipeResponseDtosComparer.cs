@@ -5,10 +5,10 @@ namespace ApiTest.Comparers;
 
 public class RecipeResponseDtosComparer : IEqualityComparer<List<RecipeResponseDto>>
 {
-    private IngredientResponseDtosComparer _ingredientsComparer;
+    private RecipeIngredientsResponseDtosComparer _recipeIngredientsesComparer;
     public RecipeResponseDtosComparer()
     {
-        _ingredientsComparer = new IngredientResponseDtosComparer();
+        _recipeIngredientsesComparer = new RecipeIngredientsResponseDtosComparer();
     }
     
     public bool Equals(List<RecipeResponseDto>? list1, List<RecipeResponseDto>? list2)
@@ -65,7 +65,7 @@ public class RecipeResponseDtosComparer : IEqualityComparer<List<RecipeResponseD
                recipe1.Title == recipe2.Title &&
                recipe1.Description == recipe2.Description &&
                recipe1.CookingTimeInMinutes == recipe2.CookingTimeInMinutes &&
-               _ingredientsComparer.Equals(recipe1.Ingredients, recipe2.Ingredients);
+               _recipeIngredientsesComparer.Equals(recipe1.Ingredients, recipe2.Ingredients);
     }
     
     private int GetRecipeHashCode(RecipeResponseDto recipe)

@@ -36,4 +36,13 @@ public class RecipesDao : IRecipesDao
         _recipesTable.Update(updatedRecipe);
         return updatedRecipe;
     }
+
+    public async Task<List<Recipe>> GetRecipesByRecipeGroup(int recipeGroupId)
+    {
+        var recipes = await _recipeDbContext.RecipeGroupRecipes
+            .Where(rgr => rgr.RecipeGroupId == recipeGroupId)
+            .Select(rgr => rgr.Recipe)
+            .ToListAsync();
+        return recipes;
+    }
 }

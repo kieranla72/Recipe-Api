@@ -157,6 +157,36 @@ public class RecipesControllerTest : TestsBase
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
+    [Fact]
+    public async Task GetRecipesByRecipeGroup()
+    {
+        var client = _factory.CreateClient();
+        var recipeGroupRecipes = await LinkBaseRecipeGroupRecipes();
+        var recipeGroupId = recipeGroupRecipes[0].RecipeGroupId;
+        
+        var response = await client.GetAsync($"/Recipes/RecipeGroups/{recipeGroupId}");
+        response.EnsureSuccessStatusCode();
+        var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
+        
+        Assert.Equal(2, recipes.Count);
+        Assert.Equal(recipeGroupRecipes[0].RecipeId, recipes[0].Id);
+        Assert.Equal(recipeGroupRecipes[1].RecipeId, recipes[1].Id);
+    }
+    
+    [Fact]
+    public async Task GetRecipesByRecipeGroup_RecipeGroupWithNoRecipesReturnsOk()
+    {
+        var client = _factory.CreateClient();
+        var recipeGroupWithNoRecipes = await InsertRecipeGroups([BaseRecipeGroups[0]]);
+        var recipeGroupId = recipeGroupWithNoRecipes[0].Id;
+        
+        var response = await client.GetAsync($"/Recipes/RecipeGroups/{recipeGroupId}");
+        response.EnsureSuccessStatusCode();
+        var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
+
+        Assert.Empty(recipes);
+    }
+
     private List<Recipe> GetNewRecipes()
     {
         return

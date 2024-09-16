@@ -42,4 +42,9 @@ public class RecipeService : IRecipeService
     {
         return await _recipesDao.UpdateRecipe(updatedRecipe);
     }
+
+    public Task<List<Recipe>> GetRecipesByRecipeGroup(int recipeGroupId)
+    {
+        return _recipesDao.GetRecipesByRecipeGroup(recipeGroupId);
+    }
 }

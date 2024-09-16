@@ -22,11 +22,11 @@ public class Recipe
     [Required]
     public string Title { get; set; }
 
-    public string? Description { get; set; }
+    public string? Description { get; init; }
     [Required]
-    public int CookingTimeInMinutes { get; set; }
+    public int CookingTimeInMinutes { get; init; }
 
     public List<Ingredient> Ingredients { get; set; } = [];
-    public List<RecipeIngredient> RecipeIngredients { get; set; } = [];
-    
+    public List<RecipeIngredient> RecipeIngredients { get; init; } = [];
+
 }

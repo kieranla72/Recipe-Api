@@ -57,6 +57,14 @@ public class RecipesController : Controller
         await _recipeService.UpdateRecipe(updatedRecipe);
         return Created("s", updatedRecipe);
     }
+    
+    [Route("RecipeGroups/{recipeGroupId}")]
+    [HttpGet]
+    public async Task<IActionResult> Put(int recipeGroupId)
+    {
+        var recipes = await _recipeService.GetRecipesByRecipeGroup(recipeGroupId);
+        return Ok(recipes);
+    }
 
     private RecipeResponseDto ProjectRecipeModel(Recipe recipe) => new(recipe);
 }

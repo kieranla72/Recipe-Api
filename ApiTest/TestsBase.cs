@@ -87,6 +87,28 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         await _dbContext.SaveChangesAsync();
         return recipeIngredients;
     }
+    
+    protected async Task<List<RecipeGroupRecipe>> LinkBaseRecipeGroupRecipes()
+    {
+        await InsertRecipeGroups(BaseRecipeGroups);
+        List<RecipeGroupRecipe> recipeGroupRecipes = new()
+        {
+            new()
+            {
+                RecipeId = BaseRecipes[0].Id,
+                RecipeGroupId = BaseRecipeGroups[0].Id,
+            },
+            new()
+            {
+                RecipeId = BaseRecipes[1].Id,
+                RecipeGroupId = BaseRecipeGroups[0].Id,
+            },
+        };
+        
+        await _dbContext.RecipeGroupRecipes.AddRangeAsync(recipeGroupRecipes);
+        await _dbContext.SaveChangesAsync();
+        return recipeGroupRecipes;
+    }
 
     protected List<RecipeResponseDto> GetRecipeResponseDtos(List<Recipe> recipes)
     {

@@ -5,4 +5,5 @@ public class RecipeGroupRecipe
     public int Id { get; init;  }
     public int RecipeGroupId { get; init; }
     public int RecipeId { get; init; }
+    public Recipe Recipe { get; init; } = null!;
 }

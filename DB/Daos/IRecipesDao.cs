@@ -8,4 +8,5 @@ public interface IRecipesDao
     Task<List<Recipe>> GetRecipes();
     Task<Recipe?> GetRecipeById(int id);
     Task<Recipe> UpdateRecipe(Recipe updatedRecipe);
+    Task<List<Recipe>> GetRecipesByRecipeGroup(int recipeGroupId);
 }

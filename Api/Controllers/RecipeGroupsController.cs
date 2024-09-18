@@ -1,3 +1,4 @@
+using Api.InputDtos;
 using Api.ResponseModels;
 using DB.Models;
 using Lib.Services;
@@ -36,5 +37,19 @@ public class RecipeGroupsController : Controller
         var recipeGroups = await _recipeGroupsService.GetRecipeGroups();
         var recipeGroupResponseDtos = recipeGroups.Select(rg => new RecipeGroupResponseDto(rg));
         return Ok(recipeGroupResponseDtos);
+    }
+    
+    
+    [HttpPost]
+    [Route("Search")]
+    public async Task<IActionResult> SearchRecipeGroups([FromBody] RecipeGroupsSearchDto recipeGroupsSearchDto)
+    {
+
+        if (recipeGroupsSearchDto.Title == null) return BadRequest();
+        var recipeGroups = await _recipeGroupsService.SearchRecipeGroupsByTitle(recipeGroupsSearchDto.Title);
+
+        var recipeGroupsResponseDtos = recipeGroups.Select(i => new RecipeGroupResponseDto(i)).ToList();
+        return Ok(recipeGroupsResponseDtos);
+
     }
 }

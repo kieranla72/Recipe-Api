@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Api.InputDtos;
+using Api.ResponseModels;
 using ApiTest.Comparers;
 using DB;
 using DB.Models;
@@ -105,7 +106,7 @@ public class IngredientsControllerTest : TestsBase
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var ingredients = await response.Content.ReadFromJsonAsync<List<Ingredient>>();
+        var ingredients = await response.Content.ReadFromJsonAsync<List<IngredientResponseDto>>();
         Assert.Equal(expectedResult, ingredients?.Count);
     }    
     

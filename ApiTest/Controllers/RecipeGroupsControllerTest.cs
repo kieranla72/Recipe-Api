@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Api.InputDtos;
 using Api.ResponseModels;
 using DB.Models;
 using Microsoft.EntityFrameworkCore;
@@ -57,9 +58,34 @@ public class RecipeGroupsControllerTest : TestsBase
         var response = await client.GetAsync($"/RecipeGroups");
         var recipeGroupResponses = await response.Content.ReadFromJsonAsync<List<RecipeGroupResponseDto>>();
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-
+        
         Assert.Equal(JsonSerializer.Serialize(recipeGroups), JsonSerializer.Serialize(recipeGroupResponses));
+    }
+
+    [Theory]
+    [InlineData("Veg", 2)]
+    [InlineData("Protein", 1)]
+    [InlineData("not a category", 0)]
+    public async Task SearchRecipeGroupsByTitle(string title, int expectedResult)
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+        List<RecipeGroup> mockRecipeGroups = new()
+        {
+            new() { Title = "Vegan" },
+            new() { Title = "Vegetarian" },
+            new() { Title = "High protein" },
+        };
+        await InsertRecipeGroups(mockRecipeGroups);
+        
+        // Act
+        RecipeGroupsSearchDto searchDto = new () { Title = title };
+        var response = await client.PostAsJsonAsync("/RecipeGroups/Search", searchDto);
+        
+        // Assert
+        response.EnsureSuccessStatusCode();
+        var recipeGroups = await response.Content.ReadFromJsonAsync<List<RecipeGroupResponseDto>>();
+        Assert.Equal(expectedResult, recipeGroups?.Count);
     }
 
 }

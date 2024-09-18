@@ -27,4 +27,9 @@ public class RecipeGroupsService: IRecipeGroupsService
     {
         return _recipeGroupsDao.GetRecipeGroups();
     }
+
+    public Task<List<RecipeGroup>> SearchRecipeGroupsByTitle(string title)
+    {
+        return _recipeGroupsDao.SearchRecipeGroupsByTitle(title);
+    }
 }

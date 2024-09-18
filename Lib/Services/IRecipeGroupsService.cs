@@ -4,7 +4,8 @@ namespace Lib.Services;
 
 public interface IRecipeGroupsService
 {
-    public Task<int> CreateRecipeGroup(RecipeGroup recipeGroup);
-    public Task<int> AddRecipeToRecipeGroup(int groupId, int recipeId);
-    public Task<List<RecipeGroup>> GetRecipeGroups();
+    Task<int> CreateRecipeGroup(RecipeGroup recipeGroup);
+    Task<int> AddRecipeToRecipeGroup(int groupId, int recipeId);
+    Task<List<RecipeGroup>> GetRecipeGroups();
+    Task<List<RecipeGroup>> SearchRecipeGroupsByTitle(string title);
 }

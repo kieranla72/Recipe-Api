@@ -33,4 +33,12 @@ public class RecipeGroupsDao : IRecipeGroupsDao
         var recipeGroups = await _recipeGroupsTable.ToListAsync();
         return recipeGroups;
     }
+
+    public async Task<List<RecipeGroup>> SearchRecipeGroupsByTitle(string title)
+    {
+        var recipeGroups = await _recipeGroupsTable
+            .Where(rg => rg.Title.Contains(title))
+            .ToListAsync();
+        return recipeGroups;
+    }
 }

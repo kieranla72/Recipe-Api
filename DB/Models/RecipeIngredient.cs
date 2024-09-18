@@ -44,11 +44,11 @@ public class RecipeIngredient
     
     public int Id { get; set; }
     public int RecipeId { get; set; }
-    public int IngredientId { get; set; }
-    public DateTime CreatedTimestamp { get; set; } = DateTime.Now;
-    public bool IsDeleted { get; set; }
+    public int IngredientId { get; init; }
+    public DateTime CreatedTimestamp { get; init; } = DateTime.Now;
+    public bool IsDeleted { get; init; }
     [MaxLength(400)]
-    public string? Comment { get; set; }
-    public int Quantity { get; set; }
-    public UnitsOfMeasurement UnitOfQuantity { get; set; }
+    public string? Comment { get; init; }
+    public int Quantity { get; init; }
+    public UnitsOfMeasurement UnitOfQuantity { get; init; }
 }

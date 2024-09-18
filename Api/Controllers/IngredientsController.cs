@@ -1,3 +1,4 @@
+using Api.InputDtos;
 using Api.ResponseModels;
 using DB.Models;
 using Lib.Exceptions;
@@ -51,5 +52,18 @@ public class IngredientsController : Controller
         {
             return NotFound();
         }
+    }
+
+    [HttpPost]
+    [Route("Search")]
+    public async Task<IActionResult> SearchIngredients([FromBody] IngredientsSearchDto ingredientsSearchDto)
+    {
+
+        if (ingredientsSearchDto.Title == null) return BadRequest();
+        var ingredients = await _ingredientsService.SearchIngredientsByTitle(ingredientsSearchDto.Title);
+
+        var ingredientResponseDtos = ingredients.Select(i => new IngredientResponseDto(i)).ToList();
+        return Ok(ingredientResponseDtos);
+
     }
 }

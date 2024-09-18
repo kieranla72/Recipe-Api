@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Api.InputDtos;
 using ApiTest.Comparers;
 using DB;
 using DB.Models;
@@ -85,9 +86,32 @@ public class IngredientsControllerTest : TestsBase
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
     
-    private async Task<List<Ingredient>> SaveIngredientsToDb()
+        
+    [Theory]
+    [InlineData("Chicken", 1)]
+    [InlineData("rice", 2)]
+    [InlineData("any string", 0)]
+    public async void SearchIngredients(string title, int expectedResult)
     {
-        var ingredientsToAdd = GetNewIngredientsList();
+        // Arrange
+        var client = _factory.CreateClient();
+        await SaveIngredientsToDb();
+        await SaveIngredientsToDb(new() { new() { Title = "Brown rice" } }); // Add extra ingredient to show searching brings back multiple
+
+        // Act
+        IngredientsSearchDto searchDto = new () { Title = title };
+        var response =
+            await client.PostAsJsonAsync("/Ingredients/Search", searchDto);
+
+        // Assert
+        response.EnsureSuccessStatusCode();
+        var ingredients = await response.Content.ReadFromJsonAsync<List<Ingredient>>();
+        Assert.Equal(expectedResult, ingredients?.Count);
+    }    
+    
+    private async Task<List<Ingredient>> SaveIngredientsToDb(List<Ingredient>? ingredients = null)
+    {
+        var ingredientsToAdd = ingredients ?? GetNewIngredientsList();
         _dbContext.Ingredients.AddRange(ingredientsToAdd);
         await _dbContext.SaveChangesAsync();
         return ingredientsToAdd;

@@ -35,5 +35,10 @@ public class IngredientsService : IIngredientsService
 
         return sportsData;
     }
+
+    public Task<List<Ingredient>> SearchIngredientsByTitle(string title)
+    {
+        return _ingredientsDao.SearchIngredientsByName(title);
+    }
 }
 

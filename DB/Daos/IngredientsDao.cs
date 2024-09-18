@@ -31,4 +31,12 @@ public class IngredientsDao : IIngredientsDao
         var ingredient = await _ingredientsTable.FindAsync(id);
         return ingredient;
     }
+
+    public async Task<List<Ingredient>> SearchIngredientsByName(string title)
+    {
+        var ingredients = await _ingredientsTable
+            .Where(i => i.Title.Contains(title))
+            .ToListAsync();
+        return ingredients;
+    }
 }

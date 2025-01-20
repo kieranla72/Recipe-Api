@@ -13,3 +13,7 @@ Adding a migration does not update the database automatically, to do that you wi
 run the command `dotnet ef database update --project ../DB`
 
 Connecting to the DB locally using the command line `mysql -h localhost -P 3306 --protocol=tcp -u root --password=example`
+
+## Running the app in docker
+
+To build the docker image of the project run this command from the root of the project `docker build -t recipe-api-image -f Dockerfile .`

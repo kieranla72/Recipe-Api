@@ -24,21 +24,21 @@ public class RecipesControllerTest : TestsBase
     {
         var client = _factory.CreateClient();
         var newRecipes = GetNewRecipes();
-
+    
         var response = await client.PostAsJsonAsync("/Recipes", newRecipes);
         var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
         var sortedRecipes = recipes.OrderBy(ft => ft.Title).ToList();
-
+    
         newRecipes[0].Id = sortedRecipes[0].Id;
         newRecipes[1].Id = sortedRecipes[1].Id;
         
         var insertedRecipes = await _dbContext.Recipes.ToListAsync();
-
+    
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(2, newRecipes.Count);
         Assert.Equal(JsonSerializer.Serialize(newRecipes), JsonSerializer.Serialize(recipes));
         var newRecipeIds = new List<int> { newRecipes[0].Id, newRecipes[1].Id };
-
+    
         var filteredInsertedRecipes = insertedRecipes.Where(i => newRecipeIds.Contains(i.Id)).ToList();
         Assert.True(_recipesComparer.Equals(newRecipes, filteredInsertedRecipes));
     }
@@ -48,7 +48,7 @@ public class RecipesControllerTest : TestsBase
     {
         var client = _factory.CreateClient();
         var newRecipes = await GetNewRecipesWithLinkedIngredients();
-
+    
         var response = await client.PostAsJsonAsync("/Recipes", newRecipes);
         var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
         var sortedRecipes = recipes.OrderBy(ft => ft.Title).ToList();
@@ -68,12 +68,12 @@ public class RecipesControllerTest : TestsBase
         newRecipes[1].Ingredients = new List<Ingredient>();
         
         var insertedRecipes = await _dbContext.Recipes.ToListAsync();
-
+    
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(2, newRecipes.Count);
         Assert.Equal(JsonSerializer.Serialize(newRecipes), JsonSerializer.Serialize(recipes));
         var newRecipeTitles = new List<string> { newRecipes[0].Title, newRecipes[1].Title };
-
+    
         var filteredInsertedRecipes = insertedRecipes.Where(i => newRecipeTitles.Contains(i.Title)).ToList();
         // Set the ids on the mock new recipes
         for (var i = 0; i < newRecipes.Count; i++)
@@ -89,29 +89,31 @@ public class RecipesControllerTest : TestsBase
     public async Task UpdateRecipe()
     {
         var client = _factory.CreateClient();
+        await InsertRecipes();
         var newRecipe = BaseRecipes[0];
         var newRecipeTitle = "This is a new recipe title";
         newRecipe.Title = newRecipeTitle;
-
+    
         var response = await client.PutAsJsonAsync("/Recipes", newRecipe);
         var recipe = await response.Content.ReadFromJsonAsync<Recipe>();
-
+    
         var insertedRecipe = await _dbContext.Recipes.FindAsync(newRecipe.Id);
-
+    
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(newRecipeTitle, recipe.Title);
         Assert.Equal(newRecipeTitle, insertedRecipe.Title);
     }
-
+    
     
     [Fact]
     public async Task GetRecipes()
     {
         var client = _factory.CreateClient();
-
+        await InsertRecipes();
+    
         var response = await client.GetAsync("/Recipes");
         var recipes = await response.Content.ReadFromJsonAsync<List<RecipeResponseDto>>();
-
+    
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(recipes);
         Assert.Equal(2, recipes.Count);
@@ -122,11 +124,12 @@ public class RecipesControllerTest : TestsBase
     public async Task GetRecipesWithLinkedIngredients()
     {
         var client = _factory.CreateClient();
+        await InsertRecipes();
         await LinkBaseRecipeIngredients();
-
+    
         var response = await client.GetAsync("/Recipes");
         var recipes = await response.Content.ReadFromJsonAsync<List<RecipeResponseDto>>();
-
+    
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(recipes);
         Assert.Equal(2, recipes.Count);
@@ -137,6 +140,7 @@ public class RecipesControllerTest : TestsBase
     public async Task GetRecipeById()
     {
         var client = _factory.CreateClient();
+        await InsertRecipes();
 
         var response = await client.GetAsync($"/Recipes/{BaseRecipes[0].Id}");
         var recipe = await response.Content.ReadFromJsonAsync<RecipeResponseDto>();
@@ -151,15 +155,16 @@ public class RecipesControllerTest : TestsBase
     {
         var client = _factory.CreateClient();
         var idWithNoCorrespondingRecipes = 123123123;
-
+    
         var response = await client.GetAsync($"/Recipes/{idWithNoCorrespondingRecipes}");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
-
+    
     [Fact]
     public async Task GetRecipesByRecipeGroup()
     {
         var client = _factory.CreateClient();
+        await InsertRecipes();
         var recipeGroupRecipes = await LinkBaseRecipeGroupRecipes();
         var recipeGroupId = recipeGroupRecipes[0].RecipeGroupId;
         

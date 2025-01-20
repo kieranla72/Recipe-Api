@@ -1,9 +1,8 @@
 using Api.ResponseModels;
 using DB;
 using DB.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiTest;
 
@@ -31,20 +30,22 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         new() { Title = "Vegetarian", Description = "No meat" }
     ];
 
-    public TestsBase(CustomWebApplicationFactory<Program> factory)
+    protected TestsBase(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
-        var connectionString = "Server=127.0.0.1;Database=RecipesTest;User=root;Password=example";
 
-        var options = new DbContextOptionsBuilder<RecipeDbContext>()
-            .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
-            .Options;
-        _dbContext = new RecipeDbContext(options);
-        _dbContext.Recipes.AddRange(BaseRecipes);
-        _dbContext.SaveChanges();
+        var scope = _factory.Services.CreateScope();
+        _dbContext = scope.ServiceProvider.GetRequiredService<RecipeDbContext>();
     }
 
-    public async Task InsertIngredients(List<Ingredient>? ingredients = null)
+    protected async Task InsertRecipes(List<Recipe>? recipes = null)
+    {
+        recipes ??= BaseRecipes;
+        _dbContext.Recipes.AddRange(recipes);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    protected async Task InsertIngredients(List<Ingredient>? ingredients = null)
     {
         ingredients ??= BaseIngredients;
         
@@ -122,12 +123,12 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
         return recipeGroups;
     }
 
-    public async void Dispose()
+    public void Dispose()
     {
-        await _dbContext.Ingredients.ExecuteDeleteAsync();
-        await _dbContext.Recipes.ExecuteDeleteAsync();
-        await _dbContext.RecipeIngredients.ExecuteDeleteAsync();
-        await _dbContext.RecipeGroups.ExecuteDeleteAsync();
-        await _dbContext.RecipeGroupRecipes.ExecuteDeleteAsync();
+        _dbContext.Ingredients.ExecuteDelete();
+        _dbContext.Recipes.ExecuteDelete();
+        _dbContext.RecipeIngredients.ExecuteDelete();
+        _dbContext.RecipeGroups.ExecuteDelete();
+        _dbContext.RecipeGroupRecipes.ExecuteDelete();
     }
 }

@@ -133,6 +133,15 @@ public class RecipesControllerTest : TestsBase
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(recipes);
         Assert.Equal(2, recipes.Count);
+        Console.WriteLine("Debugging test");
+        Console.WriteLine(BaseRecipes[0].Id);
+        Console.WriteLine(BaseRecipes[0].Title);
+        Console.WriteLine(BaseRecipes[0].Description);
+        Console.WriteLine(BaseRecipes[0].CookingTimeInMinutes);
+        Console.WriteLine(recipes[0].Id);
+        Console.WriteLine(recipes[0].Title);
+        Console.WriteLine(recipes[0].Description);
+        Console.WriteLine(recipes[0].CookingTimeInMinutes);
         Assert.True(_recipeResponseDtosComparer.Equals(GetRecipeResponseDtos(BaseRecipes), recipes));
     }
     

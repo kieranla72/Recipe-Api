@@ -75,7 +75,7 @@ public class RecipeIngredientsResponseDtosComparer : IEqualityComparer<List<Reci
         if (ingredient1.UnitOfQuantity != ingredient2.UnitOfQuantity) Console.WriteLine("ingredient UnitOfQuantity are off");
         return ingredient1.Id == ingredient2.Id &&
                ingredient1.Title == ingredient2.Title &&
-               ingredient1.CreatedTimestamp.Equals(ingredient2.CreatedTimestamp) &&
+               DateTime.Equals(ingredient1.CreatedTimestamp, ingredient2.CreatedTimestamp) &&
                ingredient1.Comment == ingredient2.Comment && 
                ingredient1.Quantity == ingredient2.Quantity && 
                ingredient1.UnitOfQuantity == ingredient2.UnitOfQuantity;

@@ -133,43 +133,44 @@ public class RecipesControllerTest : TestsBase
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(recipes);
         Assert.Equal(2, recipes.Count);
+        var xBaseRecipes = GetRecipeResponseDtos(BaseRecipes);
         Console.WriteLine("Debugging test=================================");
         Console.WriteLine("=======BaseRecipes[0]");
-        Console.WriteLine(BaseRecipes[0].Id);
+        Console.WriteLine(xBaseRecipes[0].Id);
         Console.WriteLine(recipes[0].Id);
-        Console.WriteLine(BaseRecipes[0].Title);
+        Console.WriteLine(xBaseRecipes[0].Title);
         Console.WriteLine(recipes[0].Title);
-        Console.WriteLine(BaseRecipes[0].Description);
+        Console.WriteLine(xBaseRecipes[0].Description);
         Console.WriteLine(recipes[0].Description);
-        Console.WriteLine(BaseRecipes[0].CookingTimeInMinutes);
+        Console.WriteLine(xBaseRecipes[0].CookingTimeInMinutes);
         Console.WriteLine(recipes[0].CookingTimeInMinutes);
         
-        Console.WriteLine("=======BaseRecipes[0].Ingredients[0]");
-        Console.WriteLine(BaseRecipes[0].Ingredients[0].Id);
+        Console.WriteLine("=======xBaseRecipes[0].Ingredients[0]");
+        Console.WriteLine(xBaseRecipes[0].Ingredients[0].Id);
         Console.WriteLine(recipes[0].Ingredients[0].Id);
-        Console.WriteLine(BaseRecipes[0].Ingredients[0].Title);
+        Console.WriteLine(xBaseRecipes[0].Ingredients[0].Title);
         Console.WriteLine(recipes[0].Ingredients[0].Title);
         
-        Console.WriteLine("=======BaseRecipes[0].Ingredients[1]");
-        Console.WriteLine(BaseRecipes[0].Ingredients[1].Id);
+        Console.WriteLine("=======xBaseRecipes[0].Ingredients[1]");
+        Console.WriteLine(xBaseRecipes[0].Ingredients[1].Id);
         Console.WriteLine(recipes[0].Ingredients[1].Id);
-        Console.WriteLine(BaseRecipes[0].Ingredients[1].Title);
+        Console.WriteLine(xBaseRecipes[0].Ingredients[1].Title);
         Console.WriteLine(recipes[0].Ingredients[1].Title);
         
-        Console.WriteLine("=======BaseRecipes[1]");
-        Console.WriteLine(BaseRecipes[1].Id);
+        Console.WriteLine("=======xBaseRecipes[1]");
+        Console.WriteLine(xBaseRecipes[1].Id);
         Console.WriteLine(recipes[1].Id);
-        Console.WriteLine(BaseRecipes[1].Title);
+        Console.WriteLine(xBaseRecipes[1].Title);
         Console.WriteLine(recipes[1].Title);
-        Console.WriteLine(BaseRecipes[1].Description);
+        Console.WriteLine(xBaseRecipes[1].Description);
         Console.WriteLine(recipes[1].Description);
-        Console.WriteLine(BaseRecipes[1].CookingTimeInMinutes);
+        Console.WriteLine(xBaseRecipes[1].CookingTimeInMinutes);
         Console.WriteLine(recipes[1].CookingTimeInMinutes);
         
-        Console.WriteLine("=======BaseRecipes[1].Ingredients[0]");
-        Console.WriteLine(BaseRecipes[1].Ingredients[0].Id);
+        Console.WriteLine("=======xBaseRecipes[1].Ingredients[0]");
+        Console.WriteLine(xBaseRecipes[1].Ingredients[0].Id);
         Console.WriteLine(recipes[1].Ingredients[0].Id);
-        Console.WriteLine(BaseRecipes[1].Ingredients[0].Title);
+        Console.WriteLine(xBaseRecipes[1].Ingredients[0].Title);
         Console.WriteLine(recipes[1].Ingredients[0].Title);
         Assert.True(_recipeResponseDtosComparer.Equals(GetRecipeResponseDtos(BaseRecipes), recipes));
     }

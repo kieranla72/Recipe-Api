@@ -67,11 +67,6 @@ public class RecipeResponseDtosComparer : IEqualityComparer<List<RecipeResponseD
 
     private bool RecipesAreEqual(RecipeResponseDto recipe1, RecipeResponseDto recipe2)
     {
-        if (recipe1.Id != recipe2.Id) Console.WriteLine("recipe ids are off");
-        if (recipe1.Title != recipe2.Title) Console.WriteLine("recipe titles are off");
-        if (recipe1.Description != recipe2.Description) Console.WriteLine("recipe descriptions are off");
-        if (recipe1.CookingTimeInMinutes != recipe2.CookingTimeInMinutes) Console.WriteLine("recipe cooking time are off");
-        if (!_recipeIngredientsesComparer.Equals(recipe1.Ingredients, recipe2.Ingredients)) Console.WriteLine("recipe ingredients are off");
         return recipe1.Id == recipe2.Id &&
                recipe1.Title == recipe2.Title &&
                recipe1.Description == recipe2.Description &&

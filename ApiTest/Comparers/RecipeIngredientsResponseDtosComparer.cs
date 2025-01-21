@@ -56,6 +56,12 @@ public class RecipeIngredientsResponseDtosComparer : IEqualityComparer<List<Reci
     private bool IngredientResponseDtosAreEqual(RecipeIngredientsResponseDto ingredient1, RecipeIngredientsResponseDto ingredient2)
     {
         // Compare Id, Title
+        if (ingredient1.Id != ingredient2.Id) Console.WriteLine("ingredient ids are off");
+        if (ingredient1.Title != ingredient2.Title) Console.WriteLine("ingredient titles are off");
+        if (ingredient1.CreatedTimestamp != ingredient2.CreatedTimestamp) Console.WriteLine("ingredient CreatedTimestamp are off");
+        if (ingredient1.Comment != ingredient2.Comment) Console.WriteLine("ingredient Comment are off");
+        if (ingredient1.Quantity != ingredient2.Quantity) Console.WriteLine("ingredient Quantity are off");
+        if (ingredient1.UnitOfQuantity != ingredient2.UnitOfQuantity) Console.WriteLine("ingredient UnitOfQuantity are off");
         return ingredient1.Id == ingredient2.Id &&
                ingredient1.Title == ingredient2.Title &&
                ingredient1.CreatedTimestamp == ingredient2.CreatedTimestamp && 

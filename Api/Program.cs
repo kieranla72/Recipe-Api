@@ -32,8 +32,10 @@ builder.Services.AddTransient<IRecipeGroupsDao, RecipeGroupsDao>();
 builder.Services.AddMemoryCache();
 
 var connectionString = builder.Configuration.GetConnectionString("RecipeDbContextConnection");
-builder.Services.AddDbContext<RecipeDbContext>(options => 
-    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21))));
+builder.Services.AddDbContext<RecipeDbContext>(options =>
+{
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21)));
+});
 
 
 var app = builder.Build();

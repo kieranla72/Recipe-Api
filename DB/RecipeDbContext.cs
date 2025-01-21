@@ -1,5 +1,6 @@
 using DB.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DB;
 
@@ -23,5 +24,4 @@ public class RecipeDbContext: DbContext
             .WithMany(e => e.Recipes)
             .UsingEntity<RecipeIngredient>();
     }
-
 }

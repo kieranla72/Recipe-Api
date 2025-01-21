@@ -18,13 +18,11 @@ public class RecipeResponseDtosComparer : IEqualityComparer<List<RecipeResponseD
 
         if (list1 == null || list2 == null)
         {
-            Console.WriteLine("One of the values is null");
             return false;
         }
 
         if (list1.Count != list2.Count)
         {
-            Console.WriteLine("The count is off");
             return false;
         }
 

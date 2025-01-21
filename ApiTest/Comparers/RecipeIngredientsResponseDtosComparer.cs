@@ -11,10 +11,16 @@ public class RecipeIngredientsResponseDtosComparer : IEqualityComparer<List<Reci
             return true;
 
         if (list1 == null || list2 == null)
+        {
+            Console.WriteLine("One of the lists are empty");
             return false;
+        }
 
         if (list1.Count != list2.Count)
+        {
+            Console.WriteLine("One of the counts are off");
             return false;
+        }
 
         var orderedList1 = list1.OrderByDescending(g => g.Id).ToList();
         var orderedList2 = list2.OrderByDescending(g => g.Id).ToList();

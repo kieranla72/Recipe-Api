@@ -27,7 +27,7 @@ public class RecipesControllerTest : TestsBase
     
         var response = await client.PostAsJsonAsync("/Recipes", newRecipes);
         var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
-        var sortedRecipes = recipes.OrderBy(ft => ft.Title).ToList();
+        var sortedRecipes = recipes!.OrderBy(ft => ft.Title).ToList();
     
         newRecipes[0].Id = sortedRecipes[0].Id;
         newRecipes[1].Id = sortedRecipes[1].Id;
@@ -51,7 +51,7 @@ public class RecipesControllerTest : TestsBase
     
         var response = await client.PostAsJsonAsync("/Recipes", newRecipes);
         var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
-        var sortedRecipes = recipes.OrderBy(ft => ft.Title).ToList();
+        var sortedRecipes = recipes!.OrderBy(ft => ft.Title).ToList();
         
         
         // We need to replace all of the default IDs with auto-generated incrementing IDs
@@ -60,12 +60,12 @@ public class RecipesControllerTest : TestsBase
         newRecipes[0].RecipeIngredients[0].RecipeId = sortedRecipes[0].RecipeIngredients[0].RecipeId;
         newRecipes[0].RecipeIngredients[1].Id = sortedRecipes[0].RecipeIngredients[1].Id;
         newRecipes[0].RecipeIngredients[1].RecipeId = sortedRecipes[0].RecipeIngredients[1].RecipeId;
-        newRecipes[0].Ingredients = new List<Ingredient>();
+        newRecipes[0].Ingredients = [];
         
         newRecipes[1].Id = sortedRecipes[1].Id;
         newRecipes[1].RecipeIngredients[0].Id = sortedRecipes[1].RecipeIngredients[0].Id;
         newRecipes[1].RecipeIngredients[0].RecipeId = sortedRecipes[1].RecipeIngredients[0].RecipeId;
-        newRecipes[1].Ingredients = new List<Ingredient>();
+        newRecipes[1].Ingredients = [];
         
         var insertedRecipes = await _dbContext.Recipes.ToListAsync();
     
@@ -100,8 +100,8 @@ public class RecipesControllerTest : TestsBase
         var insertedRecipe = await _dbContext.Recipes.FindAsync(newRecipe.Id);
     
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal(newRecipeTitle, recipe.Title);
-        Assert.Equal(newRecipeTitle, insertedRecipe.Title);
+        Assert.Equal(newRecipeTitle, recipe!.Title);
+        Assert.Equal(newRecipeTitle, insertedRecipe!.Title);
     }
     
     
@@ -172,7 +172,7 @@ public class RecipesControllerTest : TestsBase
         response.EnsureSuccessStatusCode();
         var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
         
-        Assert.Equal(2, recipes.Count);
+        Assert.Equal(2, recipes!.Count);
         Assert.Equal(recipeGroupRecipes[0].RecipeId, recipes[0].Id);
         Assert.Equal(recipeGroupRecipes[1].RecipeId, recipes[1].Id);
     }
@@ -188,7 +188,7 @@ public class RecipesControllerTest : TestsBase
         response.EnsureSuccessStatusCode();
         var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
 
-        Assert.Empty(recipes);
+        Assert.Empty(recipes!);
     }
 
     private List<Recipe> GetNewRecipes()
@@ -202,26 +202,29 @@ public class RecipesControllerTest : TestsBase
     
     private async Task<List<Recipe>> GetNewRecipesWithLinkedIngredients()
     {
-        List<Ingredient> ingredients = new()
-        {
+        List<Ingredient> ingredients =
+        [
             new()
             {
                 Title = "Chicken Thighs"
             },
+
             new()
             {
                 Title = "Kidney Beans"
             },
+
             new()
             {
                 Title = "Risotto Rice"
-            },
-        };
+            }
+
+        ];
 
         await InsertIngredients(ingredients);
 
-        List<RecipeIngredient> recipeIngredients = new()
-        {
+        List<RecipeIngredient> recipeIngredients =
+        [
             new()
             {
                 IngredientId = ingredients[0].Id,
@@ -229,6 +232,7 @@ public class RecipesControllerTest : TestsBase
                 Quantity = 5,
                 UnitOfQuantity = UnitsOfMeasurement.NoUnit,
             },
+
             new()
             {
                 IngredientId = ingredients[1].Id,
@@ -236,28 +240,30 @@ public class RecipesControllerTest : TestsBase
                 Quantity = 400,
                 UnitOfQuantity = UnitsOfMeasurement.Grams,
             },
+
             new()
             {
                 IngredientId = ingredients[2].Id,
                 Comment = "comment2",
                 Quantity = 1,
                 UnitOfQuantity = UnitsOfMeasurement.Cups,
-            },
-        };
+            }
+
+        ];
 
         return
         [
             new()
             {
                 Title = "Jerk Chicken", Description = "A Spicy chicken and rice meal", CookingTimeInMinutes = 60,
-                RecipeIngredients = new List<RecipeIngredient> { recipeIngredients[0], recipeIngredients[1] },
-                Ingredients = new List<Ingredient> { ingredients[0], ingredients[1] }
+                RecipeIngredients = [recipeIngredients[0], recipeIngredients[1]],
+                Ingredients = [ingredients[0], ingredients[1]]
             },
             new()
             {
                 Title = "Milanese Risotto", CookingTimeInMinutes = 40,
-                RecipeIngredients = new List<RecipeIngredient> { recipeIngredients[2] },
-                Ingredients = new List<Ingredient> { ingredients[2] }
+                RecipeIngredients = [recipeIngredients[2]],
+                Ingredients = [ingredients[2]]
 
             },
         ];

@@ -1,24 +1,17 @@
 using System.Net;
 using System.Net.Http.Json;
-using System.Text.Json;
 using Api.InputDtos;
 using Api.ResponseModels;
 using ApiTest.Comparers;
-using DB;
 using DB.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiTest.Controllers;
 
 [Collection("Sequential")]
-public class IngredientsControllerTest : TestsBase
+public class IngredientsControllerTest(CustomWebApplicationFactory<Program> factory) : TestsBase(factory)
 {
-    private IngredientsComparer _ingredientsComparer;
-
-    public IngredientsControllerTest(CustomWebApplicationFactory<Program> factory) : base(factory)
-    {
-        _ingredientsComparer = new IngredientsComparer();
-    }
+    private readonly IngredientsComparer _ingredientsComparer = new();
 
     [Fact]
     public async Task CreateIngredients()
@@ -28,7 +21,7 @@ public class IngredientsControllerTest : TestsBase
         
         var response = await client.PostAsJsonAsync("/Ingredients", newIngredients);
         var ingredients = await response.Content.ReadFromJsonAsync<List<Ingredient>>();
-        var sortedIngredients = ingredients.OrderBy(g => g.Title).ToList();
+        var sortedIngredients = ingredients!.OrderBy(g => g.Title).ToList();
         newIngredients[0].Id = sortedIngredients[0].Id;
         newIngredients[1].Id = sortedIngredients[1].Id;
         newIngredients[2].Id = sortedIngredients[2].Id;
@@ -37,7 +30,7 @@ public class IngredientsControllerTest : TestsBase
         
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal(3, ingredients.Count);
+        Assert.Equal(3, ingredients!.Count);
         Assert.True(_ingredientsComparer.Equals(newIngredients, sortedIngredients));
         Assert.True(_ingredientsComparer.Equals(newIngredients, insertedIngredients));
     }
@@ -97,7 +90,7 @@ public class IngredientsControllerTest : TestsBase
         // Arrange
         var client = _factory.CreateClient();
         await SaveIngredientsToDb();
-        await SaveIngredientsToDb(new() { new() { Title = "Brown rice" } }); // Add extra ingredient to show searching brings back multiple
+        await SaveIngredientsToDb([new() { Title = "Brown rice" }]); // Add extra ingredient to show searching brings back multiple
 
         // Act
         IngredientsSearchDto searchDto = new () { Title = title };
@@ -121,20 +114,23 @@ public class IngredientsControllerTest : TestsBase
 
     private List<Ingredient> GetNewIngredientsList()
     {
-        return new()
-        {
+        return
+        [
             new()
             {
                 Title = "Chicken Thighs"
             },
+
             new()
             {
                 Title = "Kidney Beans"
             },
+
             new()
             {
                 Title = "White Rice"
-            },
-        };
+            }
+
+        ];
     }
 }

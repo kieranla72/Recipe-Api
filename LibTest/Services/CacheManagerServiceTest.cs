@@ -11,10 +11,10 @@ public class CacheManagerServiceTest
         const string fakeData = "Fake data";
 
         var numberOfDataRetrievalCalls = 0;
-        var dataRetrieval = async () =>
+        var dataRetrieval = () =>
         {
             numberOfDataRetrievalCalls++;
-            return fakeData;
+            return Task.FromResult(fakeData);
         };
 
         await service.TryGetCache(CacheKeys.RecipesData, 10, dataRetrieval);
@@ -33,10 +33,10 @@ public class CacheManagerServiceTest
         const string fakeData = "Fake data";
 
         var numberOfDataRetrievalCalls = 0;
-        var dataRetrieval = async () =>
+        var dataRetrieval = () =>
         {
             numberOfDataRetrievalCalls++;
-            return fakeData;
+            return Task.FromResult(fakeData);
         };
 
         await service.TryGetCache(CacheKeys.RecipesData, 0.001, dataRetrieval);

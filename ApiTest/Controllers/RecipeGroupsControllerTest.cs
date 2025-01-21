@@ -10,10 +10,8 @@ using Microsoft.EntityFrameworkCore;
 namespace ApiTest.Controllers;
 
 [Collection("Sequential")]
-public class RecipeGroupsControllerTest : TestsBase
+public class RecipeGroupsControllerTest(CustomWebApplicationFactory<Program> factory) : TestsBase(factory)
 {
-    public RecipeGroupsControllerTest(CustomWebApplicationFactory<Program> factory) : base(factory) {}
-
     [Fact]
     public async Task CreateRecipeGroup()
     {
@@ -23,7 +21,7 @@ public class RecipeGroupsControllerTest : TestsBase
         var response = await client.PostAsJsonAsync("/RecipeGroups", recipeGroup);
         var recipeGroupResponse = await response.Content.ReadFromJsonAsync<RecipeGroup>();
 
-        recipeGroup.Id = recipeGroupResponse.Id;
+        recipeGroup.Id = recipeGroupResponse!.Id;
 
         var insertedRecipeGroup = await _dbContext.RecipeGroups.FindAsync(recipeGroup.Id);
         
@@ -70,12 +68,12 @@ public class RecipeGroupsControllerTest : TestsBase
     {
         // Arrange
         var client = _factory.CreateClient();
-        List<RecipeGroup> mockRecipeGroups = new()
-        {
+        List<RecipeGroup> mockRecipeGroups =
+        [
             new() { Title = "Vegan" },
             new() { Title = "Vegetarian" },
-            new() { Title = "High protein" },
-        };
+            new() { Title = "High protein" }
+        ];
         await InsertRecipeGroups(mockRecipeGroups);
         
         // Act

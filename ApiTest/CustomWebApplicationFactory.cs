@@ -7,8 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 public class CustomWebApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class
 {
-    protected RecipeDbContext _dbContext;
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
@@ -19,6 +17,5 @@ public class CustomWebApplicationFactory<TProgram>
             var connectionString = configuration.GetConnectionString("RecipeDbContextConnection");
             
         });
-        // Configure services specific to testing
     }
 }

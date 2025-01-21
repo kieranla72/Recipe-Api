@@ -56,8 +56,8 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
     protected async Task<List<RecipeIngredient>> LinkBaseRecipeIngredients()
     {
         await InsertIngredients();
-        List<RecipeIngredient> recipeIngredients = new()
-        {
+        List<RecipeIngredient> recipeIngredients =
+        [
             new()
             {
                 RecipeId = BaseRecipes[0].Id,
@@ -66,6 +66,7 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
                 Quantity = 1,
                 UnitOfQuantity = UnitsOfMeasurement.Kilograms,
             },
+
             new()
             {
                 RecipeId = BaseRecipes[0].Id,
@@ -74,6 +75,7 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
                 Quantity = 1,
                 UnitOfQuantity = UnitsOfMeasurement.NoUnit,
             },
+
             new()
             {
                 RecipeId = BaseRecipes[1].Id,
@@ -81,8 +83,9 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
                 Comment = "You can use different cheese with this",
                 Quantity = 1,
                 UnitOfQuantity = UnitsOfMeasurement.Cups,
-            },
-        };
+            }
+
+        ];
         
         await _dbContext.RecipeIngredients.AddRangeAsync(recipeIngredients);
         await _dbContext.SaveChangesAsync();
@@ -92,19 +95,21 @@ public class TestsBase : IClassFixture<CustomWebApplicationFactory<Program>>, ID
     protected async Task<List<RecipeGroupRecipe>> LinkBaseRecipeGroupRecipes()
     {
         await InsertRecipeGroups(BaseRecipeGroups);
-        List<RecipeGroupRecipe> recipeGroupRecipes = new()
-        {
+        List<RecipeGroupRecipe> recipeGroupRecipes =
+        [
             new()
             {
                 RecipeId = BaseRecipes[0].Id,
                 RecipeGroupId = BaseRecipeGroups[0].Id,
             },
+
             new()
             {
                 RecipeId = BaseRecipes[1].Id,
                 RecipeGroupId = BaseRecipeGroups[0].Id,
-            },
-        };
+            }
+
+        ];
         
         await _dbContext.RecipeGroupRecipes.AddRangeAsync(recipeGroupRecipes);
         await _dbContext.SaveChangesAsync();

@@ -21,7 +21,5 @@ jobs:
     environment: testing
     needs: Checkout-Project
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
       - name: Run Unit tests
         run: dotnet test ./LibTest

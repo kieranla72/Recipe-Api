@@ -32,7 +32,7 @@ jobs:
         with:
           name: build-artifacts
       - name: Run Integration tests
-        run: dotnet test --no-build ./ApiTest
+        run: dotnet test --no-restore ./ApiTest
   Run-Unit-Tests:
     runs-on: ubuntu-latest
     environment: testing
@@ -45,4 +45,4 @@ jobs:
         with:
           name: build-artifacts
       - name: Run Unit tests
-        run: dotnet test --no-build ./LibTest
+        run: dotnet test --no-restore ./LibTest

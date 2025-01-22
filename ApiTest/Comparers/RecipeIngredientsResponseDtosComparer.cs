@@ -64,7 +64,7 @@ public class RecipeIngredientsResponseDtosComparer : IEqualityComparer<List<Reci
         // Compare Id, Title
         if (ingredient1.Id != ingredient2.Id) Console.WriteLine("ingredient ids are off");
         if (ingredient1.Title != ingredient2.Title) Console.WriteLine("ingredient titles are off");
-        if (ingredient1.CreatedTimestamp != ingredient2.CreatedTimestamp)
+        if (!DateTime.Equals(ingredient1.CreatedTimestamp, ingredient2.CreatedTimestamp))
         {
             Console.WriteLine(ingredient1.Title);
             Console.WriteLine("ingredient CreatedTimestamp are off. 1st date: " +  ingredient1.CreatedTimestamp + " 2nd date: " +

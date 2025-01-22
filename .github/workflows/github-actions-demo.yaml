@@ -1,5 +1,5 @@
 name: Tests
-run-name: ${{ github.actor }} us running the projects tests
+run-name: ${{ github.actor }} is running the projects tests
 on: [push]
 jobs:
   Run-IntegrationTests:
@@ -16,5 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: testing
     steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
       - name: Run Unit tests
         run: dotnet test ./LibTest

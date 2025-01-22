@@ -2,12 +2,16 @@ name: Tests
 run-name: ${{ github.actor }} is running the projects tests
 on: [push]
 jobs:
-  Run-IntegrationTests:
+  Checkout-Project:
     runs-on: ubuntu-latest
-    environment: testing
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
+  Run-IntegrationTests:
+    runs-on: ubuntu-latest
+    environment: testing
+    needs: Checkout-Project
+    steps:
       - name: Build Project
         uses: hoverkraft-tech/compose-action@v2.0.1
       - name: Run Integration tests
@@ -15,6 +19,7 @@ jobs:
   Run-Unit-Tests:
     runs-on: ubuntu-latest
     environment: testing
+    needs: Checkout-Project
     steps:
       - name: Checkout project
         uses: actions/checkout@v4

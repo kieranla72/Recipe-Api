@@ -5,6 +5,8 @@ jobs:
   Build-Project:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
       - name: Build project
         run: dotnet build
   Run-IntegrationTests:

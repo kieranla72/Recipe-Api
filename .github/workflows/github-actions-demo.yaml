@@ -1,8 +1,8 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Tests
+run-name: ${{ github.actor }} us running the projects tests
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Run-IntegrationTests:
     runs-on: ubuntu-latest
     environment: testing
     steps:
@@ -12,5 +12,9 @@ jobs:
         uses: hoverkraft-tech/compose-action@v2.0.1
       - name: Run Integration tests
         run: dotnet test ./ApiTest
+  Run-Unit-Tests:
+    runs-on: ubuntu-latest
+    environment: testing
+    steps:
       - name: Run Unit tests
         run: dotnet test ./LibTest

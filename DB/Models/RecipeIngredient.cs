@@ -45,7 +45,7 @@ public class RecipeIngredient
     public int Id { get; set; }
     public int RecipeId { get; set; }
     public int IngredientId { get; init; }
-    public DateTime CreatedTimestamp { get; init; } = DateTime.Now;
+    public DateTime CreatedTimestamp { get; init; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
     public bool IsDeleted { get; init; }
     [MaxLength(400)]
     public string? Comment { get; init; }

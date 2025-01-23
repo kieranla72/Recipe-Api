@@ -2,22 +2,22 @@ name: Tests
 run-name: ${{ github.actor }} is running the projects tests
 on: [push]
 jobs:
-#  Build-Project:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout project
-#        uses: actions/checkout@v4
-#      - name: Restore project
-#        run: dotnet restore
-#      - name: Build project
-#        run: dotnet build --no-restore
-#      - name: Publish build artifacts
-#        run: dotnet publish -o ./publish
-#      - name: Upload build artifacts
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: build-artifacts
-#          path: ./publish
+  Build-Project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+      - name: Restore project
+        run: dotnet restore
+      - name: Build project
+        run: dotnet build --no-restore
+      - name: Publish build artifacts
+        run: dotnet publish -o ./publish
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: ./publish
   Run-IntegrationTests:
     runs-on: ubuntu-latest
     environment: testing

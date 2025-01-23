@@ -1,33 +1,3 @@
-#name: Share data between jobs
-#
-#on: [push]
-#
-#jobs:
-#  job_1:
-#    name: Add 3 and 7
-#    runs-on: ubuntu-latest
-#    steps:
-#      - shell: bash
-#        run: |
-#          expr 3 + 7 > math-homework.txt
-#      - name: Upload math result for job 1
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: homework_pre
-#          path: math-homework.txt
-#
-#  job_2:
-#    name: Multiply by 9
-#    needs: job_1
-#    runs-on: windows-latest
-#    steps:
-#      - name: Download math result for job 1
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: homework_pre
-
-
-
 name: Tests
 run-name: ${{ github.actor }} is running the projects tests
 on: [push]
@@ -52,12 +22,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: Upload-Build-Artifact
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
+#      - name: Checkout project
+#        uses: actions/checkout@v4
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
+      - name: Run Unit tests
+        run: dotnet test --no-restore ./LibTest
 
 
 #name: Tests

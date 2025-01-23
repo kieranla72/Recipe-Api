@@ -28,6 +28,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
+      - name: List file structure
+        run: ls
       - name: Run Unit tests
         run: dotnet test --no-restore ./LibTest
 

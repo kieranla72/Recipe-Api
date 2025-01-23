@@ -31,7 +31,7 @@ jobs:
       - name: List file structure
         run: ls
       - name: Run Unit tests
-        run: dotnet test --no-restore ./LibTest
+        run: dotnet test --no-restore ./LibTest.dll
 
 
 #name: Tests

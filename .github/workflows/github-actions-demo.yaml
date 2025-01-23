@@ -57,6 +57,8 @@ jobs:
     needs: Build-Project
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
       - name: Run docker-compose file
         uses: hoverkraft-tech/compose-action@v2.0.1
   

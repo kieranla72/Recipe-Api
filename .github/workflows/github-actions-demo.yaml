@@ -20,7 +20,7 @@ jobs:
           path: ./publish
   Download-Artifact:
     runs-on: ubuntu-latest
-    needs: Build-Project
+    needs: Upload-Build-Artifact
     steps:
       - name: Checkout project
         uses: actions/checkout@v4

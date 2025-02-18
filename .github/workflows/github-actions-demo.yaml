@@ -33,59 +33,6 @@
 #      - name: Run Unit tests
 #        run: dotnet test --no-restore ./LibTest.dll
 
-name: Tests
-run-name: ${{ github.actor }} is running the projects tests
-on: [push]
-jobs:
-  Build-Project:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-      - name: Restore project
-        run: dotnet restore
-      - name: Build project
-        run: dotnet build --no-restore
-      - name: Publish build artifacts
-        run: dotnet publish -o ./publish
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: ./publish
-  Setup-Dependencies:
-    needs: Build-Project
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-      - name: Run docker-compose file
-        uses: hoverkraft-tech/compose-action@v2.0.1
-  
-  Run-IntegrationTests:
-    runs-on: ubuntu-latest
-    environment: testing
-    needs: Setup-Dependencies
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-      - name: Run Integration tests
-        run: dotnet test --no-restore ./ApiTest.dll
-  Run-Unit-Tests:
-    runs-on: ubuntu-latest
-    environment: testing
-    needs: Build-Project
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-      - name: Run Unit tests
-        run: dotnet test --no-restore ./LibTest.dll
-
-
 #name: Tests
 #run-name: ${{ github.actor }} is running the projects tests
 #on: [push]
@@ -106,36 +53,89 @@ jobs:
 #        with:
 #          name: build-artifacts
 #          path: ./publish
+#  Setup-Dependencies:
+#    needs: Build-Project
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout project
+#        uses: actions/checkout@v4
+#      - name: Run docker-compose file
+#        uses: hoverkraft-tech/compose-action@v2.0.1
 #  
 #  Run-IntegrationTests:
 #    runs-on: ubuntu-latest
 #    environment: testing
-##    needs: Build-Project
+#    needs: Setup-Dependencies
 #    steps:
-#      - name: Checkout project
-#        uses: actions/checkout@v4
-#      - name: Build Project
-#        uses: hoverkraft-tech/compose-action@v2.0.1
-##      - name: Download build artifacts
-##        uses: actions/download-artifact@v3
-##        with:
-##          name: build-artifacts
+#      - name: Download build artifacts
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: build-artifacts
 #      - name: Run Integration tests
-#        run: dotnet test ./ApiTest
+#        run: dotnet test --no-restore ./ApiTest.dll
 #  Run-Unit-Tests:
 #    runs-on: ubuntu-latest
 #    environment: testing
 #    needs: Build-Project
 #    steps:
-#      - name: Checkout project
-#        uses: actions/checkout@v4
 #      - name: Download build artifacts
 #        uses: actions/download-artifact@v4
 #        with:
 #          name: build-artifacts
-#      - name: Restore project
-#        run: dotnet restore
-#      - name: Build project
-#        run: dotnet build
 #      - name: Run Unit tests
-#        run: dotnet test --no-restore ./LibTest
+#        run: dotnet test --no-restore ./LibTest.dll
+
+
+name: Tests
+run-name: ${{ github.actor }} is running the projects tests
+on: [push]
+jobs:
+  Build-Project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+      - name: Restore project
+        run: dotnet restore
+      - name: Build project
+        run: dotnet build --no-restore
+      - name: Publish build artifacts
+        run: dotnet publish -o ./publish
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./publish
+
+  Run-IntegrationTests:
+    runs-on: ubuntu-latest
+    environment: testing
+#    needs: Build-Project
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+      - name: Build Project
+        uses: hoverkraft-tech/compose-action@v2.0.1
+#      - name: Download build artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: build-artifacts
+      - name: Run Integration tests
+        run: dotnet test ./ApiTest
+  Run-Unit-Tests:
+    runs-on: ubuntu-latest
+    environment: testing
+    needs: Build-Project
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+      - name: Restore project
+        run: dotnet restore
+      - name: Build project
+        run: dotnet build
+      - name: Run Unit tests
+        run: dotnet test --no-restore ./LibTest

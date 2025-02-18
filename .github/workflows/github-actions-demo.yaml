@@ -110,32 +110,19 @@ jobs:
   Run-IntegrationTests:
     runs-on: ubuntu-latest
     environment: testing
-#    needs: Build-Project
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
       - name: Build Project
         uses: hoverkraft-tech/compose-action@v2.0.1
-#      - name: Download build artifacts
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: build-artifacts
       - name: Run Integration tests
         run: dotnet test ./ApiTest
   Run-Unit-Tests:
     runs-on: ubuntu-latest
     environment: testing
-    needs: Build-Project
+#    needs: Build-Project
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-      - name: Restore project
-        run: dotnet restore
-      - name: Build project
-        run: dotnet build
       - name: Run Unit tests
-        run: dotnet test --no-restore ./LibTest
+        run: dotnet test  ./LibTest
